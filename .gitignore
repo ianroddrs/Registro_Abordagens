@@ -1,0 +1,4 @@
+env/
+dados_policiais/dados_policiais/__pycache__/
+dados_policiais/mainApp/__pycache__/
+dados_policiais/mainApp/migrations/
