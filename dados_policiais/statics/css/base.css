@@ -1,0 +1,21 @@
+/* 
+#1473BB - azul
+#1688C9 - azul mais clarinho
+#EB2939 - vermelho
+#414145 - preto
+#D9D9D9 -cinza  
+*/
+
+
+/* *{
+    border: 1px solid red;
+} */
+
+header{
+    background-color: #1473BB;
+}
+
+header a{
+    color: #fff;
+    text-decoration: none;
+}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Página Inicial{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Área do usuário" %}
+<main class="container">
+    <div class="row pt-4">
+        <section class="col-12 col-lg-3">
+            <div class="clearfix">
+                <img class="float-start" src="{% static 'img/pm-logo.png' %}" width="100px" alt="logo-pm">
+                <ul class="float-start">
+                    <li><strong>Usuário:</strong> xxxx</li>
+                    <li><strong>Órgão:</strong> xxxx</li>
+                    <li><strong>Funcional:</strong> xxxxxxx-x</li>
+                    <li><strong>Guarnição:</strong> xxxxxx</li>
+                </ul>
+            </div>
+            <hr>
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item border-0"><a href="{% url 'cad_op' %}" class="btn btn-danger w-100">Cadastrar operação</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="col-12 col-lg-9 d-flex justify-content-center align-items-center">
+            <img src="https://static.anychart.com/images/gallery/v8/combined-charts-column--spline-area-and-spline-chart.png" width="90%" alt="chart">
+        </section>
+    </div>
+</main>
+{% endblock %}

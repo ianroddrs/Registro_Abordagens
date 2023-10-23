@@ -1,0 +1,18 @@
+main section.row{
+    height: calc(100vh - 68px - 68px);
+    overflow-y: auto;
+}
+
+.btn-camera{
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-left: none;
+}
+
+#area-btns{
+    height: 68px;
+}
+
+#area-btns button{
+    width: 150px;
+}

@@ -1,0 +1,43 @@
+{% load static %}
+
+<header>
+    <nav class="navbar navbar-dark navbar-expand-md">
+        <div class="container-fluid">
+            <span class="navbar-brand">
+                {% if back %}
+                <button class="btn text-light p-0 m-0" onclick="history.back()"><i class="bi bi-chevron-left"></i></button>
+                {% endif %}
+                {{ nav_title }}
+            </span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarToggler">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}" rel="noopener noreferrer">
+                            <i class="bi bi-house-fill"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'usuario' %}" rel="noopener noreferrer">
+                            <i class="bi bi-person-fill"></i> Usuário
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"href="{% url 'dashboard' %}" rel="noopener noreferrer">
+                            <i class="bi bi-graph-up-arrow"></i> Dashboard
+                        </a>
+                    </li>                        
+                </ul>
+                <hr class="d-md-none border border-light">
+                <div class="text-end">
+                    <a class="btn btn-danger" id="btn-sair" href="{% url 'sair' %}" rel="noopener noreferrer">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+                        Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
