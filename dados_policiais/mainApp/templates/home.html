@@ -14,20 +14,29 @@
 <main class="container">
     <div class="row pt-4">
         <section class="col-12 col-lg-3">
-            <div class="clearfix">
+            <div class="clearfix" id="user-info">
                 <img class="float-start" src="{% static 'img/pm-logo.png' %}" width="100px" alt="logo-pm">
-                <ul class="float-start">
-                    <li><strong>Usuário:</strong> xxxx</li>
-                    <li><strong>Órgão:</strong> xxxx</li>
-                    <li><strong>Funcional:</strong> xxxxxxx-x</li>
-                    <li><strong>Guarnição:</strong> xxxxxx</li>
+                <ul class="float-start p-0 m-0">
+                    <li><strong>Usuário:</strong> {{usuario}}</li>
+                    <li><strong>Órgão:</strong> {{orgao}}</li>
+                    <li><strong>Funcional:</strong> {{funcional}}</li>
+                    <li><strong>Guarnição:</strong> {{gu}}</li>
                 </ul>
             </div>
             <hr>
             <div>
                 <ul class="list-group">
-                    <li class="list-group-item border-0"><a href="{% url 'cad_op' %}" class="btn btn-danger w-100">Cadastrar operação</a></li>
+                    <li class="list-group-item border-0 d-none d-md-block"><a href="{% url 'acoes' %}" class="btn btn-danger w-100">Cadastrar nova ação</a></li>
+                    <li class="list-group-item border-0"><a href="{% url 'operacoes' %}" class="btn btn-danger w-100">Operações</a></li>
+                    <li class="list-group-item border-0"><a href="{% url 'registros' %}" class="btn btn-danger w-100">Registros</a></li>
+                    <li class="list-group-item border-0"><a href="{% url 'registros' %}" class="btn btn-danger w-100">Indicadores</a></li>
                 </ul>
+
+
+                <a href="{% url 'acoes' %}" id="btn-add" class="btn-danger shadow text-center d-block d-md-none">
+                    <i class="bi bi-plus-lg"></i>
+                </a>
+ 
             </div>
         </section>
         

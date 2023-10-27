@@ -3,10 +3,11 @@
 <header>
     <nav class="navbar navbar-dark navbar-expand-md">
         <div class="container-fluid">
-            <span class="navbar-brand">
-                {% if back %}
-                <button class="btn text-light p-0 m-0" onclick="history.back()"><i class="bi bi-chevron-left"></i></button>
-                {% endif %}
+            {% if back %}
+            <button class="btn text-light p-0 m-0 me-3" onclick="history.back()"><i class="bi bi-chevron-left"></i></button>
+            {% else %}
+            {% endif %}
+            <span class="navbar-brand text-center" id="nav_title">
                 {{ nav_title }}
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
@@ -15,17 +16,42 @@
             <div class="navbar-collapse collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}" rel="noopener noreferrer">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}current-page{% endif %}" href="{% url 'home' %}" rel="noopener noreferrer">
                             <i class="bi bi-house-fill"></i> Início
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuario' %}" rel="noopener noreferrer">
-                            <i class="bi bi-person-fill"></i> Usuário
-                        </a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'usuario' or request.resolver_match.url_name == 'cad_operacao' or request.resolver_match.url_name == 'cad_indicador'%}current-page{% endif %}" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill-gear"></i> Gerência</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                <a href="{% url 'usuario' %}" rel="noopener noreferrer" class="text-dark text-decoration-none">
+                                    <i class="bi bi-person-fill"></i> cadastrar usuário
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="{% url 'cad_operacao' %}" rel="noopener noreferrer" class="text-dark text-decoration-none">
+                                    <i class="bi bi-cone-striped"></i> cadastrar operação
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"href="{% url 'dashboard' %}" rel="noopener noreferrer">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'acoes' %}current-page{% endif %}" href="{% url 'acoes' %}" rel="noopener noreferrer">
+                            <i class="bi bi-bullseye"></i> Ações
+                        </a>
+                    </li>                        
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'operacoes' %}current-page{% endif %}" href="{% url 'operacoes' %}" rel="noopener noreferrer">
+                            <i class="bi bi-cone-striped"></i> Operações
+                        </a>
+                    </li>                        
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'registros' %}current-page{% endif %}" href="{% url 'registros' %}" rel="noopener noreferrer">
+                            <i class="bi bi-card-list"></i> Registros
+                        </a>
+                    </li>                        
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}current-page{% endif %}" href="{% url 'dashboard' %}" rel="noopener noreferrer">
                             <i class="bi bi-graph-up-arrow"></i> Dashboard
                         </a>
                     </li>                        

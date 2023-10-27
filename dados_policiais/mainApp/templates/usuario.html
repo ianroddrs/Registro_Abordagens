@@ -13,29 +13,30 @@
 {% include "includes/header.html" with nav_title="Perfil do usuário" back=True %}
 <main class="container">
     <form action="" method="post">
+        {% csrf_token %}
         <section class="row">
             <div class="col-12 col-md-6 border pb-5">
-                <label class="fs-5 mt-3 w-100" for="nome_envolvido">Nome</label>
-                <input required class="form-control" type="text" name="" id="nome_envolvido">
+                <label class="fs-5 mt-3 w-100" for="username">Nome</label>
+                <input required class="form-control" type="text" name="username" id="username">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="nome_mae">Órgão</label>
-                <input required class="form-control" type="text" name="" id="nome_mae">
+                <label class="fs-5 mt-3 w-100" for="password">Senha</label>
+                <input required class="form-control" type="password" autocomplete="current-password" name="password" id="password">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="data_nasc">Carteira funcionall</label>
-                <input required class="form-control" type="text" name="" id="data_nasc">
+                <label class="fs-5 mt-3 w-100" for="carteira_funcional">Carteira funcional</label>
+                <input required class="form-control" type="text" name="carteira_funcional" id="carteira_funcional">
             </div>
             <div class="col-12 col-md-6 border pb-5">
-                <label class="fs-5 mt-3 w-100" for="chefe_guanicao">Guarnição</label>
-                <input required class="form-control" type="text" name="" id="chefe_guanicao">
+                <label class="fs-5 mt-3 w-100" for="instituicao">Órgão</label>
+                <input required class="form-control" type="text" name="instituicao" id="instituicao">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="nome_op">Chefe de guarnição</label>
-                <input required class="form-control" type="text" name="" id="nome_op">
+                <label class="fs-5 mt-3 w-100" for="guarnicao">Batalhão</label>
+                <input required class="form-control" type="text" name="batalhao" id="batalhao">
+                <br>
+                <label class="fs-5 mt-3 w-100" for="chefe_guarnicao">Chefe de guarnição</label>
+                <input required class="form-check-input" type="checkbox" name="chefe_guarnicao" id="chefe_guarnicao">
             </div>
         </section>
-        <section id="area-btns" class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-warning m-4" type="reset">Editar</button>
-            <button class="btn btn-success m-4" type="submit">Salvar</button>
-        </section>
+        {% include 'includes/option-bar.html' %}
     </form>
 </main>
 {% endblock %}

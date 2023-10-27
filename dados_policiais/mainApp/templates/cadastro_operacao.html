@@ -12,50 +12,31 @@
 {% block content %}
 {% include "includes/header.html" with nav_title="Cadastro de operação" back=True %}
 <main class="container">
-    <form action="" method="post">
+    <form action="" method="POST">
+        {% csrf_token %}
         <section class="row">
-            <div class="col-12 col-md-4 border pb-5">
-                <label class="fs-5 mt-3 w-100" for="foto_abordado">Foto abordado</label>
-                <div class="input-group">
-                    <input required disabled class="form-control" type="text" name="" id="foto_abordado">
-                    <button class="btn btn-camera" type="button"><i class="bi bi-camera-fill"></i></button>
-                </div>
-                
+            <div class="col-12 col-md-6 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="nome_operacao">Nome da Operação</label>
+                <input required class="form-control" type="text" name="nome_operacao" id="nome_operacao">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="foto_documento">Foto documento</label>
-                <div class="input-group">
-                    <input required disabled class="form-control" type="text" name="" id="foto_documento">
-                    <button class="btn btn-camera" type="button"><i class="bi bi-camera-fill"></i></button>
-                </div>
+                <label class="fs-5 mt-3 w-100" for="data_inicio">Data de inicio</label>
+                <input required class="form-control" type="datetime-local" name="data_inicio" id="data_inicio">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="nro_documento">Nº do documento</label>
-                <input required class="form-control" type="number" name="" id="nro_documento">
+                <label class="fs-5 mt-3 w-100" for="data_fim">Data de término</label>
+                <input class="form-control" type="datetime-local" name="data_fim" id="data_fim">
             </div>
-            <div class="col-12 col-md-4 border pb-5">
-                <label class="fs-5 mt-3 w-100" for="nome_envolvido">Nome envolvido</label>
-                <input required class="form-control" type="text" name="" id="nome_envolvido">
+            <div class="col-12 col-md-6 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="municipio">Município da Operação</label>
+                <input required class="form-control" type="text" name="municipio" id="municipio">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="nome_mae">Nome mãe</label>
-                <input required class="form-control" type="text" name="" id="nome_mae">
+                <label class="fs-5 mt-3 w-100" for="bairro">Bairro da Operação</label>
+                <input required class="form-control" type="text" name="bairro" id="bairro">
                 <br>
-                <label class="fs-5 mt-3 w-100" for="data_nasc">Data de nascimento</label>
-                <input required class="form-control" type="date" name="" id="data_nasc">
-            </div>
-            <div class="col-12 col-md-4 border pb-5">
-                <label class="fs-5 mt-3 w-100" for="chefe_guanicao">Chefe da guarnição</label>
-                <input required class="form-control" type="text" name="" id="chefe_guanicao">
-                <br>
-                <label class="fs-5 mt-3 w-100" for="nome_op">Nome da operação</label>
-                <input required class="form-control" type="text" name="" id="nome_op">
-                <br>
-                <label class="fs-5 mt-3 w-100" for="data_op">Data da operação</label>
-                <input required class="form-control" type="date" name="" id="data_op">
+                <label class="fs-5 mt-3 w-100" for="comandante">Comandante da Operação</label>
+                <input required class="form-control" type="text" name="comandante" id="comandante">
             </div>
         </section>
-        <section id="area-btns" class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-danger m-4" type="reset">Descartar</button>
-            <button class="btn btn-success m-4" type="submit">Enviar</button>
-        </section>
+        {% include 'includes/option-bar.html' %}
     </form>
 </main>
 {% endblock %}

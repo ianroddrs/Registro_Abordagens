@@ -15,7 +15,12 @@ header{
     background-color: #1473BB;
 }
 
-header a{
-    color: #fff;
-    text-decoration: none;
+.current-page{
+    font-weight: 500;
+    color: white !important;
+    max-width: fit-content;
+}
+
+.bi-chevron-left{
+    font-size: 25px;
 }

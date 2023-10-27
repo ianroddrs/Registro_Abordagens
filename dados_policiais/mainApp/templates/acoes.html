@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/acoes.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Cadastro de ações" back=True %}
+<main class="container">
+    <section class="d-flex align-items-center justify-content-center">
+        <ul class="list-group" id="actions">
+            <li class="list-group-item border-0"><a href="{% url 'cad_abordagem' %}" class="btn btn-danger w-100 text-start p-3"><i class="bi bi-person-bounding-box me-3"></i>Abordagem de pessoas</a></li>
+            <li class="list-group-item border-0"><a href="{% url 'veiculo' %}" class="btn btn-danger w-100 text-start p-3"><i class="bi bi-car-front-fill me-3"></i>Abordagem veicular</a></li>
+            <li class="list-group-item border-0"><a href="{% url 'estabelecimento' %}" class="btn btn-danger w-100 text-start p-3"><i class="bi bi-buildings-fill me-3"></i>Fiscalização de estabelecimentos</a></li>
+            <li class="list-group-item border-0"><a href="{% url 'busca_apreensao' %}" class="btn btn-danger w-100 text-start p-3"><i class="bi bi-file-earmark-medical me-3"></i>Mandado de busca e apreensão</a></li>
+            <li class="list-group-item border-0"><a href="{% url 'busca_apreensao' %}" class="btn btn-danger w-100 text-start p-3"><i class="bi bi-fire me-3"></i>Queimadas</a></li>
+        </ul>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/foto.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Abordagem de pessoas" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <section class="row">
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="foto_abordado">Foto abordado</label>
+                <div class="input-group">
+                    <input disabled class="form-control" type="text" id="foto_abordado">
+                    <input type="hidden" id="hiddenBase64Input" name="foto_abordado" value="">
+                    <label for="fileInput" class="btn btn-camera" id="abrirCamera" type="button" ><i class="bi bi-camera-fill"></i></label>
+                    <input type="file" accept="image/*" capture="camera" id="fileInput" class="d-none">
+                    <img id="imagemCapturada" src="" alt="Imagem Capturada" width="50px" height = "38px" class="imagem-captura">
+                </div>
+                <br>
+
+                <label class="fs-5 mt-3 w-100" for="foto_documento">Foto documento</label>
+                <div class="input-group">
+                    <input disabled class="form-control" type="text" name="" id="foto_documento">
+                    <input  id="imagemCapturada_src" type="hidden" name="foto_documento" src="" alt="Imagem Capturada">
+                    <button class="btn btn-camera" id="abrirCamerazz" type="button" ><i class="bi bi-camera-fill"></i></button>
+                    <img id="imagemCapturadazz" src="" alt="Imagem Capturada" width="50px" class="imagem-captura">
+                </div>
+ 
+                <br>
+                <label class="fs-5 mt-3 w-100" for="nro_documento">Nº do documento</label>
+                <input  class="form-control" type="number" name="nro_documento" id="nro_documento">
+            </div>
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="nome_envolvido">Nome envolvido</label>
+                <input  class="form-control" type="text" name="nome_envolvido" id="nome_envolvido">
+                <br>
+                <label class="fs-5 mt-3 w-100" for="nome_mae">Nome mãe</label>
+                <input  class="form-control" type="text" name="nome_mae" id="nome_mae">
+                <br>
+                <label class="fs-5 mt-3 w-100" for="data_nasc">Data de nascimento</label>
+                <input  class="form-control" type="date" name="data_nasc" id="data_nasc">
+            </div>
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="chefe_guarnicao">Chefe da guarnição</label>
+                <select class="form-select" name="chefe_guarnicao" id="" >
+                    <option selected></option>
+                    {% for chefe in chefes %}
+                    <option value="{{chefe.id}}">{{chefe.name}}</option>
+                    {% endfor %}
+                </select>
+                {% comment %} <input  class="form-control" type="text" name="chefe_guarnicao" id="chefe_guarnicao"> {% endcomment %}
+                <br>
+                <label class="fs-5 mt-3 w-100" for="nome_op">Nome da operação</label>
+                <select class="form-select" name="nome_op" id="">
+                    <option selected></option>
+                    {% for operacao in operacoes %}
+                    <option value="{{operacao.id}}">{{operacao.nome}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <input  class="form-control" type="text" name="nome_op" id="nome_op"> -->
+            </div>
+        </section>
+        {% include 'includes/option-bar.html' %}
+    </form>
+
+</main>
+{% endblock %}
