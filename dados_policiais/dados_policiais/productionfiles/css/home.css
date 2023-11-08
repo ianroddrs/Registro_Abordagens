@@ -14,7 +14,7 @@ main > div{
     transition: all, 0.3s;
 }
 
-#btn-add:hover, #btn-add:focus{
+#btn-add:hover{
     scale: 0.9;
 }
 

@@ -11,16 +11,37 @@
     border: 1px solid red;
 } */
 
-header{
-    background-color: #1473BB;
-}
-
 .current-page{
     font-weight: 500;
     color: white !important;
-    max-width: fit-content;
 }
 
 .bi-chevron-left{
     font-size: 25px;
 }
+
+#navbarToggler a{
+    transition: all 0.3s;
+    cursor: pointer;
+    max-width: fit-content;
+}
+
+#navbarToggler a:hover{
+    scale: 1.1;
+}
+
+@keyframes hueCycle {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    100% {
+      filter: hue-rotate(360deg);
+    }
+  }
+  
+  #dash {
+    position: relative;
+    z-index: -1;
+    animation: hueCycle 100s linear infinite; 
+  } 
+  

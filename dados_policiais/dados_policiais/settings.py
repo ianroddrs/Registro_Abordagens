@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-5xe!=qhvr!7%dt+u0h%rkns3c@!^2*)pisv21_p)6ct@m92_hr
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'mainApp',
+    'pc',
+    'pcepa',
     'bootstrap5',
 ]
 
@@ -136,4 +137,4 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'login'
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 1000000
+DATA_UPLOAD_MAX_MEMORY_SIZE = 999999999999999999 ** 99

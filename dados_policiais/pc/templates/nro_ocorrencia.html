@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/cadastro.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Numero de ocorrencia" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'includes/chefe_operacao.html' %}
+        <section class="row justify-content-center">
+            <div class="col-12 col-md-6 pb-5">
+                <div class="form-control m-auto mt-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="fs-5 w-100" for="apresentacao">Apresentação</label>
+                            <input  class="form-check-input" type="checkbox" name="apresentacao" id="apresentacao">
+                        </div>
+                        <div class="col-6">
+                            <label class="fs-5 w-100" for="fato_relevante">Fato relevante</label>
+                            <input  class="form-check-input" type="checkbox" name="fato_relevante" id="fato_relevante">
+                        </div>
+                    </div>
+                </div>
+                <label class="fs-5 mt-3 w-100" for="numero">Numero</label>
+                <input  class="form-control" type="text" name="numero" id="numero">
+                
+                <label class="fs-5 mt-3 w-100" for="enquadramento">Enquadramento</label>
+                <input  class="form-control" type="text" name="enquadramento" id="enquadramento">
+                
+                <div class="mt-4 fs-5">Informações do relator:</div>
+                <div class="form-control m-auto">
+                    <p>Colocar o input de busca aqui e OCULTAR o formulario. apos buscar e selecionar a pessoa. Exibir o formulario preenchido.
+                        Se nao encontrar uma pessoa, preencher o formulario para cadastro</p>
+                        {{ form_relator }}
+                    </div>
+                    {% comment %} <label class="fs-5 mt-3" for="nome_relator">Nome relator</label> {% endcomment %}
+                    {% comment %} <input onclick="abrir_pesquisa(this)" class="form-control" type="text" name="nome_relator" id="nome_relator" autocomplete="off"> {% endcomment %}
+                {% include 'includes/pesquisa.html' %}
+
+                <div class="mt-4 fs-5">Informações do suspeito:</div>
+                <div class="form-control m-auto">
+                    <p>Colocar o input de busca aqui e OCULTAR o formulario. apos buscar e selecionar a pessoa. Exibir o formulario preenchido.
+                        Se nao encontrar uma pessoa, preencher o formulario para cadastro</p>
+                    {{ form_suspeito.as_p }} 
+                    {% comment %} <label class="fs-5" for="nome_suspeito" >Nome</label>
+                    <input type="checkbox" id="" class="ms-1 mt-1" >
+                    <input class="form-control" type="text" name="nome_suspeito" onclick="abrir_pesquisa(this)" id="nome_suspeito">
+                    <label class="fs-5 mt-3 w-100" for="genero">Gênero</label>
+                    <select name="genero" id="genero" class="form-select">
+                        <option selected></option>
+                        <option value="F">Feminino</option>
+                        <option value="M">Masculino</option>
+                    </select> {% endcomment %}
+                </div>
+            </div>
+        </section>
+        {% include 'includes/option-bar.html' %}
+    </form>
+</main>
+{% endblock %}

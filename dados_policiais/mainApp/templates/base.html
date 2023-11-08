@@ -11,6 +11,17 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <!-- CSS FILES -->
+    {% if instituicao == 'PCEPA' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PCEPA.css' %}">
+    {% elif instituicao == 'PC' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PC.css' %}">
+    {% elif instituicao == 'PM' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PM.css' %}">
+    {% elif instituicao == 'CBM' %}
+    <link rel="stylesheet" href="{% static 'css/cores_CBM.css' %}">
+    {% else%}
+    <link rel="stylesheet" href="{% static 'css/cores.css' %}">
+    {% endif %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block css%}{% endblock %}
     <!-- JS FILES -->

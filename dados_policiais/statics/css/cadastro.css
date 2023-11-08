@@ -11,6 +11,8 @@ main section.row{
 
 #area-btns{
     height: 68px;
+    position: relative;
+    bottom: 0;
 }
 
 #area-btns button{
@@ -23,4 +25,8 @@ main section.row{
 
 #imagemCapturada{
     object-fit: fill;
+}
+
+#nome_envolvido{
+    cursor: pointer;
 }

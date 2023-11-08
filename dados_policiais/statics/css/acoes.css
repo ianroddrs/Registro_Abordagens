@@ -2,11 +2,15 @@ main > section{
     height: calc(100vh - 68px);
 }
 
-#actions li{
+#actions div{
     transition: all, 0.5s;
     border: 0;
 }
 
-#actions li:hover{
-    scale: 1.05;
+#actions div:hover{
+    scale: 1.025;
+}
+
+#actions #action{
+    height: 50px;
 }

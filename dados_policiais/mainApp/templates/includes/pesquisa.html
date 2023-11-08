@@ -1,0 +1,26 @@
+{% load static %}
+<div class="container-modal-pesquisa">
+    <div class="pt-0 box-modal-pesquisa">
+        <div class="clearfix px-4 p-0 m-0 cor_instituicao rounded-top">
+            <label class="fs-5 text-light float-start pt-1 m-0" for="input_pesquisa">Pesquisar:</label>
+            <button type="button" class="btn float-end p-0 m-0" id="btn-fechar" onclick="fechar_pesquisa()"><i class="bi bi-x-lg fs-4 text-light"></i></button>
+        </div>
+        <div class="p-4 bg-light rounded-bottom">
+            <div class="input-group">
+                <input class="form-control" type="text" name="input_pesquisa" id="input_pesquisa" value="{{pesquisa}}">
+                <button class="btn btn-primary" value="Pesquisar" name="pesquisar" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+            {% if resultados_pesquisa %}
+                {% for pessoa in resultados_pesquisa %}
+                    <u>
+                        <li>
+                            {{pessoa.nome_completo}} | {{pessoa.nome_mae}} | {{pessoa.data_nascimento}}
+                        </li>
+                    </u>
+                {%endfor%}
+            {% else %}
+            Cadastrar pessoa: <a class="related-widget-wrapper-link add-related" id="add_id_id_envolvido" data-popup="yes" href="/admin/mainApp/modelpessoas/add/?_to_field=id_pessoa&amp;_popup=1" title="Adicionar outro model pessoas"><img src="/static/admin/img/icon-addlink.svg" alt="Adicionar"></a>
+            {% endif %}
+        </div>
+    </div>  
+</div>

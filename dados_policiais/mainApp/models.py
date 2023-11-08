@@ -2,6 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+GENERO = (
+    ('M','MASCULINO'),
+    ('F','FEMININO'),
+)
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -110,76 +115,74 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
-        
+
+class ModelImagens(models.Model):
+    id_imagem = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
+    imagem = models.TextField(max_length=999**999,null=False,blank=False)
+    
+    class Meta:
+        db_table = 'imagens'
+ 
 class ModelUsuarios(models.Model):
     id = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
-    name = models.CharField(max_length=200, blank=False, null=False)
+    nome_completo = models.CharField(max_length=200, blank=False, null=False)
     instituicao = models.CharField(max_length=100, blank=False, null=False)
     funcional = models.IntegerField(blank=False, null=False)
-    chefe = models.BooleanField(blank=False, null=False)
+    comandante = models.BooleanField(blank=False, null=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    id_usuario_django = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_usuario_django = models.ForeignKey(User, db_column='id_usuario_django',on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'usuarios'
-    
-class ModelRegistrosAbordagem(models.Model):
-    nro_registro = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
-    data_registro = models.DateTimeField(auto_now_add=True)
-    id_usuario_registro = models.ForeignKey(User, on_delete=models.CASCADE)
-    data_manutencao = models.DateTimeField(auto_now=True)
-    chefe_guarnicao = models.IntegerField(null=False,blank=False)
-    id_tipo_abordagem = models.IntegerField(null=False,blank=False)
-    operacao = models.IntegerField(null=True,blank=False)
-    
-    def __str__(self):
-        return f"Registro {self.nro_registro}"
 
-    class Meta:
-        db_table = 'registros_abordagem'
-
-class ModelPessoas(models.Model):
-    nome = models.CharField(max_length=200, blank=False, null=False)
-    data_nascimento = models.DateField(null=False, blank=False)
-    nro_documento = models.IntegerField(null=False, blank=False, primary_key=True)
-    nome_mae = models.CharField(max_length=200,blank=False, null=False)
-    data_registro = models.DateTimeField(auto_now_add=True)
-    data_manutencao = models.DateTimeField(auto_now=True)
-    id_abordagem = models.ForeignKey(ModelRegistrosAbordagem,on_delete=models.CASCADE)
-    
-    class Meta:
-        db_table = 'pessoas'
-        
-        
 class ModelOperacoes(models.Model):
-    nome = models.CharField(max_length=200, blank=False, null=False)
+    nome_operacao = models.CharField(max_length=200, blank=False, null=False)
     data_inicio = models.DateTimeField(null=False, blank=False)
     data_fim = models.DateTimeField(null=True)
-    municipio = models.CharField(max_length=200,blank=False, null=False)
-    bairro = models.CharField(max_length=200,blank=False, null=False)
-    comandante = models.CharField(max_length=200,blank=False, null=False)
+    responsavel = models.CharField(max_length=200,blank=False, null=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
     
     class Meta:
         db_table = 'operacoes'
 
+class ModelPessoas(models.Model):
+    id_pessoa = models.AutoField(primary_key=True,unique=True, db_index=True, serialize=True,null=False,blank=False)
+    nome_completo = models.CharField(max_length=200, blank=False, null=False)
+    data_nascimento = models.DateField(null=False, blank=False)
+    genero = models.CharField(max_length=10, null=False, blank=False,choices=GENERO)
+    nro_documento = models.IntegerField(null=False, blank=False)
+    nome_mae = models.CharField(max_length=200,blank=False, null=False)
+    nome_pai = models.CharField(max_length=200,blank=False, null=True)
+    endereco_residencial = models.CharField(max_length=100,null=True,blank=False)
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_manutencao = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'pessoas'
+        
+
 class ModelVeiculos(models.Model):
+    id_veiculo = models.AutoField(primary_key=True,unique=True, db_index=True, serialize=True,null=False,blank=False)
     tipo_veiculo = models.CharField(max_length=200, blank=False, null=False)
-    placa = models.CharField(max_length=200,blank=False, null=False)
+    marca = models.CharField(max_length=100,null=True,blank=False)
+    modelo = models.CharField(max_length=100,null=True,blank=False)
+    placa = models.CharField(max_length=20,null=False,blank=False)
+    renavam = models.CharField(max_length=100,null=True,blank=False)
+    niv_chassi = models.CharField(max_length=100,null=True,blank=False)
+    niv_chassi_revelado = models.CharField(max_length=100,null=True,blank=False)
     proprietario = models.CharField(max_length=200,blank=False, null=False)
-    condutor = models.CharField(max_length=200,blank=False, null=False)
     irregularidade = models.CharField(max_length=200,blank=False, null=True)
     veiculo_apreendido = models.BooleanField(null=True)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    id_abordagem = models.ForeignKey(ModelRegistrosAbordagem,on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'veiculos'
         
 class ModelEstabelecimentos(models.Model):
+    id_estabelecimento = models.AutoField(primary_key=True,unique=True, db_index=True, serialize=True,null=False,blank=False)
     tipo_estabelecimento = models.CharField(max_length=200, blank=False, null=False)
     endereco = models.CharField(max_length=200,blank=False, null=False)
     proprietario = models.CharField(max_length=200,blank=False, null=False)
@@ -187,7 +190,36 @@ class ModelEstabelecimentos(models.Model):
     estabelecimento_interditado = models.BooleanField()
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    id_abordagem = models.ForeignKey(ModelRegistrosAbordagem,on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'estabelecimento'
+        
+class ModelRegistrosAbordagem(models.Model):
+    nro_registro = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
+    data_registro = models.DateTimeField(auto_now_add=True)
+    id_usuario = models.ForeignKey(ModelUsuarios, db_column='id_usuario',related_name='id_usuario',on_delete=models.CASCADE)
+    data_manutencao = models.DateTimeField(auto_now=True)
+    comandante = models.IntegerField(null=False,blank=False)
+    id_operacao = models.ForeignKey(ModelOperacoes, db_column='id_operacao',related_name='id_operacao', on_delete=models.CASCADE)
+    id_envolvido = models.ForeignKey(ModelPessoas,db_column='id_envolvido',related_name='id_envolvido_pm',on_delete=models.CASCADE,null=True,blank=False)
+    id_veiculo = models.ForeignKey(ModelVeiculos,db_column='id_veiculo',related_name='id_reg_veiculo',on_delete=models.CASCADE,null=True,blank=False)
+    id_condutor_veiculo = models.ForeignKey(ModelPessoas,db_column='id_condutor_veiculo',related_name='id_condutor_veiculo',on_delete=models.CASCADE,null=True,blank=False)
+    id_estabelecimento = models.ForeignKey(ModelEstabelecimentos,db_column='id_estabelecimento',related_name='id_reg_estabelecimento',on_delete=models.CASCADE,null=True,blank=False)
+    id_foto_abordado = models.ForeignKey(ModelImagens,db_column='id_foto_abordado',related_name='id_foto_abordado',on_delete=models.CASCADE,null=True,blank=False)
+    id_foto_documento = models.ForeignKey(ModelImagens,db_column='id_foto_documento',related_name='id_foto_documento',on_delete=models.CASCADE,null=True,blank=False)
+    
+    def __str__(self):
+        return f"Registro {self.nro_registro}"
+
+    class Meta:
+        db_table = 'registros_abordagem'
+
+class ModelIndicadores(models.Model):
+    id = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True,null=False,blank=False)
+    indicador = models.CharField(max_length=200, null=False, blank=False)
+    instituicao = models.CharField(max_length=10, null=False, blank=False)
+    icon = models.CharField(max_length=50, null=False, blank=False)
+    endereco = models.CharField(max_length=50, null=False, blank=False)
+    
+    class Meta:
+        db_table = 'indicadores'

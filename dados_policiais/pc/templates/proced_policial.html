@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/cadastro.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Procedimento policial" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'includes/chefe_operacao.html' %}
+        <section class="row justify-content-center">
+            <div class="col-12 col-md-6 pb-5">
+                <div class="form-control m-auto mt-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="fs-5 w-100" for="apresentacao">Apresentação</label>
+                            <input  class="form-check-input" type="checkbox" name="apresentacao" id="apresentacao">
+                        </div>
+                        <div class="col-6">
+                            <label class="fs-5 w-100" for="fato_relevante">Fato relevante</label>
+                            <input  class="form-check-input" type="checkbox" name="fato_relevante" id="fato_relevante">
+                        </div>
+                    </div>
+                </div>
+                <label class="fs-5 mt-3 w-100" for="numero">Numero</label>
+                <input  class="form-control" type="text" name="numero" id="numero">
+                
+                <label class="fs-5 mt-3 w-100" for="enquadramento">Enquadramento</label>
+                <input  class="form-control" type="text" name="enquadramento" id="enquadramento">
+                
+                <label class="fs-5 mt-3" for="nome_apresentante">Nome apresentante</label>
+                <input  class="form-control" type="text" name="nome_apresentante" id="nome_apresentante">
+                <div class="form-control m-auto mt-4">
+                    <label class="fs-5" for="nome_autor">Nome autor</label>
+                    <input type="checkbox" id="" class="ms-1 mt-1">
+                    <input disabled class="form-control" type="text" name="nome_autor" id="nome_autor">
+                    <label class="fs-5 mt-3 w-100" for="genero">Gênero</label>
+                    <select disabled name="genero" id="genero" class="form-select">
+                        <option selected></option>
+                        <option value="F">Feminino</option>
+                        <option value="M">Masculino</option>
+                    </select>
+                </div>
+                
+            </div>
+        </section>
+        {% include 'includes/option-bar.html' %}
+    </form>
+    
+</main>
+{% endblock %}

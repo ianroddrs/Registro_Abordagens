@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/cadastro.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de apreensao{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Apreensão" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'includes/chefe_operacao.html' %}
+        <section class="row justify-content-center">
+            <div class="col-12 col-md-6 pb-5">
+                
+                <label class="fs-5 mt-3 w-100" for="endereco">Endereço</label>
+                <input  class="form-control" type="text" name="endereco" id="endereco">
+                
+                <label class="fs-5 mt-3 w-100" for="envolvido">Envolvido</label>
+                <input  class="form-control" type="text" name="envolvido" id="envolvido">
+                
+                <label class="fs-5 mt-3" for="nome_apresentante">Obejto apreendido</label>
+                <label class="fs-5 w-100" for="fato_relevante">Fato relevante</label>
+                <input  class="form-check-input" type="checkbox" name="fato_relevante" id="fato_relevante">
+                
+            </div>
+        </section>
+        {% include 'includes/option-bar.html' %}
+    </form>
+    
+</main>
+{% endblock %}

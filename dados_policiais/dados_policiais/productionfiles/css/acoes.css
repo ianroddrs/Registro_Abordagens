@@ -8,5 +8,9 @@ main > section{
 }
 
 #actions li:hover{
-    scale: 1.05;
+    scale: 1.025;
+}
+
+ul{
+    list-style-type:none;
 }

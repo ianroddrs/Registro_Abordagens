@@ -10,15 +10,25 @@
 
 
 {% block content %}
-{% include "includes/header.html" with nav_title="Área do usuário" %}
-<main class="container">
+{% include "includes/header.html" with nav_title="Área do usuário" destination="hojme" %}
+<main class="container-fluid">
     <div class="row pt-4">
         <section class="col-12 col-lg-3">
             <div class="clearfix" id="user-info">
-                <img class="float-start" src="{% static 'img/pm-logo.png' %}" width="100px" alt="logo-pm">
+                {% if instituicao == 'PC' %}
+                <img class="float-start p-1" src="{% static 'img/LOGO_PC.png' %}" width="100px" alt="logo-pc">
+                {% elif instituicao == 'PCEPA' %}
+                <img class="float-start p-1" src="{% static 'img/LOGO_PCEPA.png' %}" width="100px" alt="logo-pcepa">
+                {% elif instituicao == 'PM' %}
+                <img class="float-start p-1" src="{% static 'img/LOGO_PM.png' %}" width="100px" alt="logo-pm">
+                {% elif instituicao == 'CBM' %}
+                <img class="float-start p-1" src="{% static 'img/LOGO_CBM.png' %}" width="100px" alt="logo-cbm">
+                {% else%}
+                
+                {% endif %}
                 <ul class="float-start p-0 m-0">
                     <li><strong>Usuário:</strong> {{usuario}}</li>
-                    <li><strong>Órgão:</strong> {{orgao}}</li>
+                    <li><strong>Órgão:</strong> {{instituicao}}</li>
                     <li><strong>Funcional:</strong> {{funcional}}</li>
                     <li><strong>Guarnição:</strong> {{gu}}</li>
                 </ul>
@@ -27,9 +37,6 @@
             <div>
                 <ul class="list-group">
                     <li class="list-group-item border-0 d-none d-md-block"><a href="{% url 'acoes' %}" class="btn btn-danger w-100">Cadastrar nova ação</a></li>
-                    <li class="list-group-item border-0"><a href="{% url 'operacoes' %}" class="btn btn-danger w-100">Operações</a></li>
-                    <li class="list-group-item border-0"><a href="{% url 'registros' %}" class="btn btn-danger w-100">Registros</a></li>
-                    <li class="list-group-item border-0"><a href="{% url 'registros' %}" class="btn btn-danger w-100">Indicadores</a></li>
                 </ul>
 
 
@@ -40,8 +47,43 @@
             </div>
         </section>
         
-        <section class="col-12 col-lg-9 d-flex justify-content-center align-items-center">
-            <img src="https://static.anychart.com/images/gallery/v8/combined-charts-column--spline-area-and-spline-chart.png" width="90%" alt="chart">
+        <section class="col-12 col-lg-9 border">
+            <div class="row border">
+                <div class="col border">
+                    <div class="row border">
+                        <div class="col border">
+                            <h3>OPERAÇÕES</h3>
+                            <div class="row">
+                                <div class="col-4 border">
+                                    Em andamento: <strong>5</strong>
+                                </div>
+                                <div class="col-4 border">
+                                    Não iniciadas: <strong>2</strong>
+                                </div>
+                                <div class="col-4 border">
+                                    Finalizadas: <strong>27</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row border">
+                        <div class="col border">col 1</div>
+                        <div class="col border">col 2</div>
+                    </div>
+                </div>
+                <div class="col border">
+                    col 2
+                </div>
+            </div>
+            <div class="row border">
+                row 2
+            </div>
+
+
+
+            {% comment %}
+            <img src="https://static.anychart.com/images/gallery/v8/combined-charts-column--spline-area-and-spline-chart.png" width="90%" alt="chart" id="dash">
+            {% endcomment %}
         </section>
     </div>
 </main>

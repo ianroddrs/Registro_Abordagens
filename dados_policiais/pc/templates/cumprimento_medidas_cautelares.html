@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/cadastro.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Cumprimento medidas cautelares" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'includes/chefe_operacao.html' %}
+        <section class="row justify-content-center">
+            <div class="col-12 col-md-6 pb-5">
+
+                <label class="fs-5 mt-3 w-100" for="especie">Especie</label>
+                <input  class="form-control" type="text" name="especie" id="especie">
+                
+                <label class="fs-5 mt-3 w-100" for="processo">Processo</label>
+                <input  class="form-control" type="text" name="processo" id="processo">
+                
+                <label class="fs-5 mt-3 w-100" for="enquadramento">Enquadramento</label>
+                <input  class="form-control" type="text" name="enquadramento" id="enquadramento">
+                
+                <label class="fs-5 mt-3 w-100" for="envolvido">Envolvido</label>
+                <input  class="form-control" type="text" name="envolvido" id="envolvido">
+                
+
+                <label class="fs-5 mt-3 w-100" for="genero">Gênero</label>
+                    <select name="genero" id="genero" class="form-select">
+                        <option selected></option>
+                        <option value="F">Feminino</option>
+                        <option value="M">Masculino</option>
+                </select>
+                
+
+
+                <label class="fs-5 w-100" for="fato_relevante">Fato relevante</label>
+                <input  class="form-check-input" type="checkbox" name="fato_relevante" id="fato_relevante">
+
+
+                
+            </div>
+        </section>
+        {% include 'includes/option-bar.html' %}
+    </form>
+    
+</main>
+{% endblock %}

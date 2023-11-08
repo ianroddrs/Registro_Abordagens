@@ -11,6 +11,8 @@ main section.row{
 
 #area-btns{
     height: 68px;
+    position: relative;
+    bottom: 0;
 }
 
 #area-btns button{
@@ -21,19 +23,6 @@ main section.row{
     display: none;
 }
 
-.modal{
-    display: none;
-    position: fixed;
-    z-index: 99;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.9);
-    font-size: 0.8em;
-}
-
-video{
-    border-radius: 15px;
+#imagemCapturada{
+    object-fit: fill;
 }
