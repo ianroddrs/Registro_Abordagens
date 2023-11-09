@@ -49,6 +49,7 @@ class ModelOcorrencias(models.Model):
     id_relator = models.ForeignKey(ModelPessoas, db_column='id_relator',related_name='id_relator',on_delete=models.CASCADE)
     id_suspeito = models.ForeignKey(ModelPessoas, db_column='id_suspeito',related_name='id_suspeito',on_delete=models.CASCADE)
     id_usuario = models.ForeignKey(ModelUsuarios, db_column='id_usuario',related_name='id_usuario_pc_ocor',on_delete=models.CASCADE)
+    id_comandante = models.ForeignKey(ModelUsuarios, db_column='id_comandante',related_name='id_comandante_pc_ocor', on_delete=models.CASCADE)
     id_operacao = models.ForeignKey(ModelOperacoes, db_column='id_operacao',related_name='id_operacao_pc_ocor', on_delete=models.CASCADE)
     
     class Meta:
@@ -70,8 +71,9 @@ class ModelProcedimento(models.Model):
     class Meta:
         db_table = 'pc_procedimentos'
 
+        
 class ModelApreensao(models.Model):
-    nro_registro = models.AutoField(primary_key=True, null=False, blank=False) #foreignkey ocorrencia
+    id_apreensao = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
     endereco = models.CharField(max_length=200, null=False, blank=False)
     tipo_objeto = models.CharField(max_length=200, choices=TP_OBJ)
     tipo_droga = models.CharField(max_length=200, choices=TP_DROGA)
@@ -88,13 +90,20 @@ class ModelApreensao(models.Model):
     placa_veiculo = models.CharField(max_length=20, null=False, blank=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    fato_relevante = models.BooleanField(null=False)
-    id_usuario = models.ForeignKey(ModelUsuarios, db_column='id_usuario',related_name='id_usuario_pc_apre',on_delete=models.CASCADE)
-    id_operacao = models.ForeignKey(ModelOperacoes, db_column='id_operacao',related_name='id_operacao_pc_apre', on_delete=models.CASCADE)
+    # fato_relevante = models.BooleanField(null=False)
+    # id_usuario = models.ForeignKey(ModelUsuarios, db_column='id_usuario',related_name='id_usuario_pc_apre',on_delete=models.CASCADE)
+    # id_operacao = models.ForeignKey(ModelOperacoes, db_column='id_operacao',related_name='id_operacao_pc_apre', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'pc_apreensao'
+
+class ModelOcorrencia_Apreensao(models.Model):
+    nro_bop = models.ForeignKey(ModelOcorrencias,db_column='nro_bop',related_name='nro_bop_apreensao', on_delete=models.CASCADE,null=True)
+    id_apreensao = models.ForeignKey(ModelOcorrencias,db_column='id_apreensao',related_name='id_apreensao_apreensao', on_delete=models.CASCADE,null=True) #foreignkey ocorrencia
     
+    class Meta:
+        db_table = 'pc_ocorrencia_apreensao'
+        
 class ModelCumprimentoMedidas(models.Model):
     nro_registro = models.AutoField(primary_key=True, null=False, blank=False) #foreignkey ocorrencia
     processo = models.CharField(max_length=100,null=False,blank=False)

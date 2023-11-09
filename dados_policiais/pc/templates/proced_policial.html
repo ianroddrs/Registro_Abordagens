@@ -31,24 +31,18 @@
                         </div>
                     </div>
                 </div>
-                <label class="fs-5 mt-3 w-100" for="numero">Numero</label>
-                <input  class="form-control" type="text" name="numero" id="numero">
+                <label class="fs-5 mt-3 w-100" for="nro_bop">Nro Bop</label>
+                {{form_procedimento.nro_bop}}
+                {% comment %} <input  class="form-control" type="text" name="nro_bop" id="nro_bop"> {% endcomment %}
+
+                <label class="fs-5 mt-3 w-100" for="nro_procedimento">Nro Procedimento</label>
+                <input  class="form-control" type="text" name="nro_procedimento" id="nro_procedimento" required>
                 
                 <label class="fs-5 mt-3 w-100" for="enquadramento">Enquadramento</label>
-                <input  class="form-control" type="text" name="enquadramento" id="enquadramento">
+                <input  class="form-control" type="text" name="enquadramento" id="enquadramento" required>
                 
-                <label class="fs-5 mt-3" for="nome_apresentante">Nome apresentante</label>
-                <input  class="form-control" type="text" name="nome_apresentante" id="nome_apresentante">
-                <div class="form-control m-auto mt-4">
-                    <label class="fs-5" for="nome_autor">Nome autor</label>
-                    <input type="checkbox" id="" class="ms-1 mt-1">
-                    <input disabled class="form-control" type="text" name="nome_autor" id="nome_autor">
-                    <label class="fs-5 mt-3 w-100" for="genero">Gênero</label>
-                    <select disabled name="genero" id="genero" class="form-select">
-                        <option selected></option>
-                        <option value="F">Feminino</option>
-                        <option value="M">Masculino</option>
-                    </select>
+                {% include 'includes/pessoa.html' with prefix='pessoa1' nome='Apresentante'%}
+                {% include 'includes/pessoa.html' with prefix='pessoa2' nome='Autor' %}
                 </div>
                 
             </div>

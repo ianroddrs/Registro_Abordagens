@@ -78,7 +78,10 @@ header{
   color: #d73041 !important;
 }
 
-
+.resultados_pesquisa{
+  max-height: 50vh;
+  overflow-y: auto;
+}
 
 
 

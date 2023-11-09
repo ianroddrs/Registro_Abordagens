@@ -1,0 +1,36 @@
+{% load static %}
+<div class="mt-3">
+    <span class="mt-4 fs-5">Informações do {{nome}}:</span> 
+    <button type="button" onclick="abrir_pesquisa('{{nome}}')" class="btn btn-sm btn-primary">
+        <i class="bi bi-search"></i> 
+    </button>
+    <div class="form-control m-auto">
+        <div class="campos-pessoa" id="campos_{{nome}}">
+            <label for="id_{{prefix}}-nome_completo">Nome completo:</label>
+            <input type="text" name="{{prefix}}-nome_completo" maxlength="200"  id="id_{{prefix}}-nome_completo" class="form-control" autocomplete="off" value="{{value}}">
+
+            <label for="id_{{prefix}}-data_nascimento">Data nascimento:</label>
+            <input type="date" name="{{prefix}}-data_nascimento"  id="id_{{prefix}}-data_nascimento" class="form-control">
+    
+            <label for="id_{{prefix}}-genero">Genero:</label> 
+            <select name="{{prefix}}-genero"  id="id_{{prefix}}-genero" class="form-select">
+                <option value="" selected="">---------</option>
+                <option value="M">MASCULINO</option>
+                <option value="F">FEMININO</option>
+            </select>
+    
+            <label for="id_{{prefix}}-nro_documento">Nro documento:</label>
+            <input type="number" name="{{prefix}}-nro_documento"  id="id_{{prefix}}-nro_documento" class="form-control">
+    
+            <label for="id_{{prefix}}-nome_mae">Nome mae:</label>
+            <input type="text" name="{{prefix}}-nome_mae" maxlength="200"  id="id_{{prefix}}-nome_mae" class="form-control">
+    
+            <label for="id_{{prefix}}-nome_pai">Nome pai:</label>
+            <input type="text" name="{{prefix}}-nome_pai" maxlength="200"  id="id_{{prefix}}-nome_pai" class="form-control">
+    
+            <label for="id_{{prefix}}-endereco_residencial">Endereco residencial:</label>
+            <input type="text" name="{{prefix}}-endereco_residencial" maxlength="100"  id="id_{{prefix}}-endereco_residencial" class="form-control">
+        </div>
+    
+    </div>
+</div>
