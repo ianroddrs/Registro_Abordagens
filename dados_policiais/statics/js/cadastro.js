@@ -36,7 +36,13 @@ function adicionar_pessoa(target, tipo){
     info.forEach(function(item) {
         nome_campo = item.getAttribute('target')
         campo = campos.querySelector(`*[name*='${nome_campo}']`)
-        campo.value = item.textContent.trim()
+        if(nome_campo.includes('data') && item.textContent){
+            var dateParts = item.textContent.trim().split('/')
+            var formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+            campo.value = formattedDate
+        }else{
+            campo.value = item.textContent.trim()
+        }
     });
 
     modal_pesquisa.style.display = 'none'

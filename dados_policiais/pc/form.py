@@ -8,16 +8,15 @@ class OcorrenciasForm(forms.ModelForm):
         fields = ['nro_bop', 'apresentacao', 'enquadramento', 'fato_relevante',]
 
 class PessoasForm(forms.ModelForm):
+    id_pessoa = forms.IntegerField(required=False,widget=forms.HiddenInput())
     nome_completo = forms.CharField(required=False, label='Nome completo')
-    data_nascimento = forms.DateField(required=False,
-        label='Data fim',
-        widget=forms.DateInput(
-            format='%d-%m-%Y',
-            attrs={
-                'type': 'date',
-            }),
-        input_formats=('%Y-%m-%d',),
-    )
+    data_nascimento = forms.DateField(required=False,label='Data nascimento',widget=forms.DateInput(format='%d-%m-%Y',attrs={'type': 'date',}),input_formats=('%Y-%m-%d',),)
+    genero = forms.ChoiceField(required=False,widget=forms.Select,choices=GENERO,)
+    nro_documento = forms.IntegerField(required=False,)
+    nome_mae = forms.CharField(required=False, label='Nome da mae')
+    nome_pai = forms.CharField(required=False, label='Nome do pai')
+    endereco_residencial = forms.CharField(required=False, label='Endereco residencial')
+    
     class Meta:
         model = ModelPessoas
         fields = ['nome_completo', 'data_nascimento', 'genero', 'nro_documento','nome_mae','nome_pai','endereco_residencial']

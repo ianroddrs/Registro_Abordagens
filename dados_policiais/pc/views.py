@@ -1,3 +1,4 @@
+from time import sleep
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.db.models import Sum,Q
 from django.http import HttpResponse, QueryDict
@@ -55,18 +56,20 @@ def nro_ocorrencia(request):
             'form_ocorrencia': form_ocorrencia,
         }
     else:
+        print(request.POST.get('chefe_guarnicao'),' aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         form_ocorrencia = OcorrenciasForm(request.POST)
         form_pessoa2 = PessoasForm(request.POST, prefix='pessoa1')
         form_pessoa1 = PessoasForm(request.POST, prefix='pessoa2')
         
         #chek pessoas
-        pessoa1 = ModelPessoas.objects.get(id_pessoa=request.POST.get('id_pessoa1'))
-        pessoa2 = ModelPessoas.objects.get(id_pessoa=request.POST.get('id_pessoa2'))
+        pessoa1 = ModelPessoas.objects.get(id_pessoa=request.POST.get('pessoa1-id_pessoa'))
+        pessoa2 = ModelPessoas.objects.get(id_pessoa=request.POST.get('pessoa2-id_pessoa'))
+        comandante = ModelUsuarios.objects.get(id_usuario_django=request.POST.get('chefe_guarnicao'))
         
         if form_pessoa2.is_valid() and form_pessoa1.is_valid():
             suspeito = pessoa1 if pessoa1 else form_pessoa2.save()
             relator = pessoa2 if pessoa2 else form_pessoa1.save()
-            ocorrencia = ModelOcorrencias(nro_bop=request.POST.get('numero'),apresentacao='True' if request.POST.get('apresentacao') else 'False',fato_relevante='True' if request.POST.get('fato_relevante') else 'False',enquadramento=request.POST.get('enquadramento'),id_suspeito=suspeito,id_relator=relator,id_usuario=ModelUsuarios.objects.get(id=request.user.id),id_operacao=ModelOperacoes.objects.get(id=request.POST.get('nome_op')))
+            ocorrencia = ModelOcorrencias(nro_bop=request.POST.get('numero'),apresentacao='True' if request.POST.get('apresentacao') else 'False',fato_relevante='True' if request.POST.get('fato_relevante') else 'False',enquadramento=request.POST.get('enquadramento'),id_suspeito=suspeito,id_relator=relator,id_usuario=ModelUsuarios.objects.get(id=request.user.id),id_operacao=ModelOperacoes.objects.get(id=request.POST.get('nome_op')),id_comandante=comandante)
             ocorrencia = ocorrencia.save()
 
             return HttpResponse('salvo')
