@@ -13,7 +13,7 @@
 {% include "includes/header.html" with nav_title="Cadastro de ações" back=True %}
 <main class="container">
     <section class="d-flex align-items-center justify-content-center">
-        <div class="row p-3" id="actions">
+        <div class="row w-100 p-3 d-flex align-items-center justify-content-center" id="actions">
             {% for i in indicadores %}
                 {% if i.instituicao == instituicao %}
                     <div class="border-0 col-sm-12 col-md-6 col-lg-4 col-xl-4">

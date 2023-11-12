@@ -44,7 +44,7 @@
                         <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'reg_acoes' or request.resolver_match.url_name == 'reg_operacoes' %}current-page{% endif %}" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-card-list"></i>  Registros</a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item">
-                                <a class="text-dark text-decoration-none" href="{% url 'reg_acoes' %}" rel="noopener noreferrer">
+                                <a class="text-dark text-decoration-none" href="{%if instituicao == 'PC'%}{% url 'ocorrencias' %}{% else %}{% url 'reg_acoes' %}{% endif %}" rel="noopener noreferrer">
                                     <i class="bi bi-bullseye"></i> Ações
                                 </a>
                             </li>

@@ -7,78 +7,86 @@
         </div>
         <div class="p-4 bg-light rounded-bottom">
             <div class="input-group">
-                <input class="form-control" type="text" name="input_pesquisa" id="input_pesquisa" value="{{pesquisa}}">
+                <input class="form-control" type="text" name="input_pesquisa" id="input_pesquisa" value="{{pesquisa}}" placeholder="Nome ou Nº. de documento">
                 <button class="btn btn-primary" value="{{pesquisar}}" name="pesquisar" type="submit" id="btn-pesquisa"><i class="bi bi-search"></i></button>
             </div>
-            {% if resultados_pesquisa %}
-            <div class="accordion accordion-flush resultados_pesquisa mt-4" id="accordionFlush">
-                {% for pessoa in resultados_pesquisa %}
-                <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
-                        {{pessoa.nome_completo}}
+            <div class="resultados_pesquisa">
+                {% if pesquisa %}
+                <div class="ms-1 mt-1">
+                    <button class="border border-0 bg-transparent p-0 m-0" type="button" onclick="cadastrar_pessoa('{{pesquisar}}')">
+                        Cadastrar pessoa:
+                        <img src="/static/admin/img/icon-addlink.svg" alt="Adicionar">
                     </button>
-                  </h2>
-                  <div id="flush-collapse{{pessoa.id_pessoa}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
-                    <div class="accordion-body">
-                        <ul>
-                            <li class="d-none">
-                                <strong>id</strong>
-                                <span target="id_pessoa">{{pessoa.id_pessoa}}</span>
-                            </li>
-                            <li class="d-none" >
-                                <strong>Nome:</strong>
-                                <span target="nome_completo">
-                                    {{pessoa.nome_completo}}
-                                </span>
-                                
-                            </li>
-                            <li>
-                                <strong>Data de nascimento:</strong>
-                                <span target="data_nascimento">
-                                    {{pessoa.data_nascimento|date:'d/m/Y'}}
-                                </span>                            
-                            </li>
-                            <li>
-                                <strong>Nro. documento:</strong>
-                                <span target="nro_documento">
-                                    {{pessoa.nro_documento}}
-                                </span>
-                            </li>
-                            <li>
-                                <strong>Endereço:</strong>
-                                <span target="endereco_residencial">
-                                    {{pessoa.endereco_residencial}}
-                                </span>
-                            </li>
-                            <li>
-                                <strong>Gênero:</strong>
-                                <span target="genero">
-                                    {{pessoa.genero}}
-                                </span>
-                            </li>
-                            <li>
-                                <strong>Nome mãe:</strong>
-                                <span target="nome_mae">
-                                    {{pessoa.nome_mae}}
-                                </span>
-                            </li>
-                            <li>
-                                <strong>Nome pai:</strong>
-                                <span target="nome_pai">
-                                    {{pessoa.nome_pai}}
-                                </span>
-                            </li>
-                        </ul>
-                        <button type="button" class="btn btn-sm btn-primary w-100" onclick="adicionar_pessoa(this,'{{pesquisar}}')">Adicionar</button>
-                    </div>
-                  </div>
                 </div>
-                {%endfor%}
-              </div>
-            {% else %}
-            Cadastrar pessoa: <a class="related-widget-wrapper-link add-related" id="add_id_id_envolvido" data-popup="yes" href="/admin/mainApp/modelpessoas/add/?_to_field=id_pessoa&amp;_popup=1" title="Adicionar outro model pessoas"><img src="/static/admin/img/icon-addlink.svg" alt="Adicionar"></a>
-            {% endif %}
+                {%endif%}
+                {% if resultados_pesquisa %}
+                    <div class="accordion accordion-flush mt-2" id="accordionFlush">
+                        {% for pessoa in resultados_pesquisa %}
+                        <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
+                                {{pessoa.nome_completo}}
+                            </button>
+                        </h2>
+                        <div id="flush-collapse{{pessoa.id_pessoa}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li class="d-none">
+                                        <strong>id</strong>
+                                        <span target="id_pessoa">{{pessoa.id_pessoa}}</span>
+                                    </li>
+                                    <li class="d-none" >
+                                        <strong>Nome:</strong>
+                                        <span target="nome_completo">
+                                            {{pessoa.nome_completo}}
+                                        </span>
+                                        
+                                    </li>
+                                    <li>
+                                        <strong>Data de nascimento:</strong>
+                                        <span target="data_nascimento">
+                                            {{pessoa.data_nascimento|date:'d/m/Y'}}
+                                        </span>                            
+                                    </li>
+                                    <li>
+                                        <strong>Nro. documento:</strong>
+                                        <span target="nro_documento">
+                                            {{pessoa.nro_documento}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <strong>Endereço:</strong>
+                                        <span target="endereco_residencial">
+                                            {{pessoa.endereco_residencial}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <strong>Gênero:</strong>
+                                        <span target="genero">
+                                            {{pessoa.genero}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <strong>Nome mãe:</strong>
+                                        <span target="nome_mae">
+                                            {{pessoa.nome_mae}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <strong>Nome pai:</strong>
+                                        <span target="nome_pai">
+                                            {{pessoa.nome_pai}}
+                                        </span>
+                                    </li>
+                                </ul>
+                                <button type="button" class="btn btn-sm btn-primary w-100" onclick="adicionar_pessoa(this,'{{pesquisar}}')">Adicionar</button>
+                            </div>
+                        </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>  
 </div>

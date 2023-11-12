@@ -5,11 +5,11 @@ class OcorrenciasForm(forms.ModelForm):
     
     class Meta:
         model = ModelOcorrencias
-        fields = ['nro_bop', 'apresentacao', 'enquadramento', 'fato_relevante',]
+        fields = ['nro_bop', 'apresentacao', 'enquadramento', 'fato_relevante','cumprimento_medidas','instituicao','processo',]
 
 class PessoasForm(forms.ModelForm):
     id_pessoa = forms.IntegerField(required=False,widget=forms.HiddenInput())
-    nome_completo = forms.CharField(required=False, label='Nome completo')
+    nome_completo = forms.CharField(required=False, label="Nome completo")
     data_nascimento = forms.DateField(required=False,label='Data nascimento',widget=forms.DateInput(format='%d-%m-%Y',attrs={'type': 'date',}),input_formats=('%Y-%m-%d',),)
     genero = forms.ChoiceField(required=False,widget=forms.Select,choices=GENERO,)
     nro_documento = forms.IntegerField(required=False,)
@@ -31,4 +31,10 @@ class ProcedimentoForm(forms.ModelForm):
     
     class Meta:
         model = ModelProcedimento
-        fields = ['nro_bop','nro_procedimento','apresentacao','enquadramento','fato_relevante',]
+        fields = ['apresentacao','enquadramento','fato_relevante',]
+
+class BopProcForm(forms.ModelForm):
+    
+    class Meta:
+        model = ModelBop_Procedimento
+        fields = ['nro_bop','nro_procedimento']

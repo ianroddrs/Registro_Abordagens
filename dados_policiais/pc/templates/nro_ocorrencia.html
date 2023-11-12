@@ -13,32 +13,54 @@
 
 {% block content %}
 {% include "includes/header.html" with nav_title="Numero de ocorrencia" back=True %}
-<main class="container">
+<main class="container-fluid">
     <form action="" method="POST">
         {% csrf_token %}
         {% include 'includes/chefe_operacao.html' %}
         <section class="row justify-content-center">
-            <div class="col-12 col-md-6 pb-5">
+            <div class="col-12 col-md-8 pb-5">
                 <div class="form-control m-auto mt-4">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <label class="fs-5 w-100" for="apresentacao">Apresentação:</label>
                             <input  class="form-check-input" type="checkbox" name="apresentacao" id="apresentacao" {% if form_ocorrencia.apresentacao.value %}checked {% else %}{%endif%}>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <label class="fs-5 w-100" for="fato_relevante">Fato relevante:</label>
                             <input  class="form-check-input" type="checkbox" name="fato_relevante" id="fato_relevante" {% if form_ocorrencia.fato_relevante.value %}checked {% else %}{%endif%}>
                         </div>
+                        <div class="col-4">
+                            <label class="fs-5 w-100" for="cumprimento_medidas">Cumprimento de medidas:</label>
+                            <input  class="form-check-input" type="checkbox" name="cumprimento_medidas" id="cumprimento_medidas" {% if form_ocorrencia.cumprimento_medidas.value %}checked {% else %}{%endif%}>
+                        </div>
                     </div>
                 </div>
-                <label class="fs-5 mt-3 w-100" for="nro_bop">Numero:</label>
-                <input  class="form-control" type="text" name="nro_bop" id="nro_bop" value="{{form_ocorrencia.nro_bop.value|default_if_none:''}}">
+                <div class="row">
+                    <div class="col">
+                        <label class="fs-5 mt-3" for="nro_bop">Nº. do BOP:</label>
+                        <span class="required">*</span>
+                        <input  class="form-control" type="text" name="nro_bop" id="nro_bop" value="{{form_ocorrencia.nro_bop.value|default_if_none:''}}">
+                        
+                        <label class="fs-5 mt-3" for="enquadramento">Enquadramento:</label>
+                        <span class="required">*</span>
+                        <input  class="form-control" type="text" name="enquadramento" id="enquadramento" value="{{form_ocorrencia.enquadramento.value|default_if_none:''}}">
+                    </div>
+                    <div class="col-12 col-md-6" id="camposCumprimentoMedidas">
+                        <label class="fs-5 mt-3" for="processo">Processo:</label>
+                        <input  class="form-control" type="text" name="processo" id="processo" value="{{form_ocorrencia.processo.value|default_if_none:''}}">
+                        
+                        <label class="fs-5 mt-3 w-100" for="instituicao">Orgão responsavel:</label>
+                        <select class="form-control" name="instituicao" id="id_instituicao">
+                            <option value="{{form_ocorrencia.instituicao.value|default_if_none:''}}" selected="">{{form_ocorrencia.instituicao.value|default_if_none:''}}</option>
+                            <option value="PM">PM</option>
+                            <option value="PC">PC</option>
+                            <option value="PC/PM">PC/PM</option>
+                          </select>
+                    </div>
+                </div>
                 
-                <label class="fs-5 mt-3 w-100" for="enquadramento">Enquadramento:</label>
-                <input  class="form-control" type="text" name="enquadramento" id="enquadramento" value="{{form_ocorrencia.enquadramento.value|default_if_none:''}}">
-                
-                {% include 'includes/pessoa.html' with prefix='pessoa2' nome='relator'%}
-                {% include 'includes/pessoa.html' with prefix='pessoa1' nome='suspeito'%}
+                {% include 'includes/pessoa.html' with prefix='pessoa1' nome='relator'%}
+                {% include 'includes/pessoa.html' with prefix='pessoa2' nome='suspeito'%}
                 {% comment %}
                 {% include 'includes/apreensao.html'%}
                 {% endcomment %}

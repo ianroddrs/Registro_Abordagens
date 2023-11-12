@@ -4,7 +4,7 @@
         <label class="fs-5 mt-3 w-100" for="chefe_guarnicao">Comandante</label>
         <select class="form-select" name="chefe_guarnicao" id="select-chefe" >
             {% if chefe_guarnicao %}
-            <option selected value="{{chefe_guarnicao.id}}">{{chefe_guarnicao.nome_completo}}</option>
+            <option selected value="{{chefe_guarnicao.id_usuario_django.id}}">{{chefe_guarnicao.nome_completo}}</option>
             <option></option>
             {% for chefe in chefes %}
             <option value="{{chefe.id_usuario_django.id}}" >{{chefe.nome_completo}}</option>
@@ -32,8 +32,6 @@
             {% endfor %}
             {% endif %}
         </select>
-
-        <button type="button" class="btn btn-primary w-100 mt-4" onclick="fechar_modal_operacao()">Continuar</button>
-        <!-- <input  class="form-control" type="text" name="nome_op" id="nome_op"> -->
+        <button type="button" class="btn btn-primary w-100 mt-4" id="btn-operacao" onclick="fechar_modal_operacao()">Continuar</button>
     </div>  
 </div>

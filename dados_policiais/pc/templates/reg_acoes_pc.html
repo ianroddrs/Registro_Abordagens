@@ -32,7 +32,11 @@
                         {% comment %} <td><a href="{% url 'update' ocorrencia.nro_registro%}">{{ocorrencia.nro_registro}}</a></td> {% endcomment %}
                         <td min-width="250px">{{ocorrencia.nro_bop}}</td>
                         <td>{{ocorrencia.data_registro|date:'d/m/Y'}}</td>
-                        <td>{{ocorrencia.apresentacao}}</td>
+                        {% if ocorrencia.apresentacao %}
+                            <td><input type="checkbox" name="" id="" checked disabled></td>
+                        {% else %}
+                        <td><input type="checkbox" name="" id="" disabled></td>
+                        {%endif%}
                         <td>{{ocorrencia.enquadramento}}</td>
                         {% if ocorrencia.id_relator %}
                             {% for p in pessoa %}
@@ -50,7 +54,7 @@
                         {% endif %}
                          {% if ocorrencia.id_comandante %}
                             {% for chefe in chefes%}
-                                {% if chefe.id_usuario_django.id == ocorrencia.id_comandante.id %}
+                                {% if chefe.id == ocorrencia.id_comandante.id %}
                                     <td min-width="250px">{{chefe.nome_completo}}</td>
                                 {% endif %}
                             {% endfor %}

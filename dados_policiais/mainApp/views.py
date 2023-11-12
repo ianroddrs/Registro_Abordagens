@@ -8,6 +8,8 @@ from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from pc.form import *
+from pc.views import *
 from .models import *
 import requests
 from PIL import Image
@@ -57,7 +59,6 @@ def acoes(request):
     usuario = request.user
     instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
     indicadores_page = ModelIndicadores.objects.all()
-    print(indicadores_page)
     context = {
         'indicadores':indicadores_page,
         'instituicao':instituicao,
@@ -70,32 +71,54 @@ def usuario(request):
     instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
     template = 'usuario.html'
     if request.method == 'GET':
+        form_pessoa1 = PessoasForm(prefix='pessoa1')
         context = {
             "instituicao":instituicao,
+            "form_pessoa1":form_pessoa1,
         }
         return render(request, template, context)
     else:
-        username_template = request.POST.get('username')
-        print(username_template)
+        form_pessoa1 = PessoasForm(request.POST, prefix='pessoa1')
+        
+        nome_completo = form_pessoa1['nome_completo'].value()
         senha = request.POST.get('password')
-        instituicao = request.POST.get('instituicao')
-        carteira_funcional = request.POST.get('carteira_funcional')
-        guarnicao = request.POST.get('guarnicao')
+        instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+        carteira_funcional = form_pessoa1['nro_documento'].value()
         comandante = request.POST.get('chefe_guarnicao')
         
-        user = User.objects.filter(username=username_template)
-        nome = ModelUsuarios.objects.filter(nome_completo=username_template)
+        user = User.objects.filter(username=nome_completo)
+        nome = ModelUsuarios.objects.filter(nome_completo=nome_completo)
+        pessoa = ModelPessoas.objects.filter(nome_completo=nome_completo)
         
-        if user:
-            return HttpResponse('Já existe esse usuário')
-        
-        user = User.objects.create_user(username=username_template, password=senha)
-        usuario = ModelUsuarios(nome_completo=username_template, instituicao=instituicao, funcional=carteira_funcional, comandante='True' if comandante == 'on' else 'False', id_usuario_django=user)
-        print(user,usuario)
-        usuario.save()
-            
-    return HttpResponse('Usuário criado com sucesso')
-    return redirect('home')
+        usuario_cadastrado = True if user and nome else False
+        print(usuario_cadastrado)
+        user = user if user else User.objects.create_user(username=nome_completo, password=senha)
+        nome = nome if nome else ModelUsuarios(nome_completo=nome_completo, instituicao=instituicao, funcional=carteira_funcional, comandante='True' if comandante == 'on' else 'False', id_usuario_django=user).save()
+        if pessoa:
+            pessoa = pessoa
+        else:
+            if form_pessoa1.is_valid():
+                form_pessoa1.save()
+                context = {
+                "instituicao":instituicao,
+                "sucess":'Usuario cadastrado com sucesso',
+                "form_pessoa1":form_pessoa1,
+                }
+                return render(request, template, context)
+            else:
+                context = {
+                "instituicao":instituicao,
+                "form_pessoa1":form_pessoa1,
+                }
+                return render(request, template, context)
+        if usuario_cadastrado:
+            context = {
+                "instituicao":instituicao,
+                "erro":'Usuario ja cadastrado',
+                "form_pessoa1":form_pessoa1,
+                }
+            return render(request, template, context)
+    return render(request, template, context)
 
 @login_required
 def cad_operacao(request):

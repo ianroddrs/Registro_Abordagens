@@ -1,17 +1,53 @@
 {% load static %}
-<div class="mt-3">
-    <span class="mt-4 fs-5">Informações do {{nome}}:</span> 
-    <button type="button" onclick="abrir_pesquisa('{{nome}}')" class="btn btn-sm btn-primary">
-        <i class="bi bi-search"></i> 
-    </button>
-    <div class="form-control m-auto">
-        <div class="campos-pessoa" id="campos_{{nome}}">
-            {% if prefix == 'pessoa1' %}
-                {{ form_pessoa1 }}
-            {% elif prefix == 'pessoa2' %}
-                {{ form_pessoa2}}
-            {% endif %}
+<div class="accordion mt-4" id="accordion{{prefix}}">
+    <div class="accordion-item">
+        <div class="row p-0 m-0">
+            <h2 class="accordion-header col-11 px-0 mx-0">
+                <button class="text-start text-dark bg-light border border-0 collapsed w-100 pb-1" disabled type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{prefix}}" aria-expanded="false" aria-controls="collapse{{pessoa.id_pessoa}}">
+                    <span class="fs-5">Informações do {{nome}}:</span> 
+                </button>
+            </h2>
+            <button class="btn btn-sm btn-primary col-1 mx-0" type="button" onclick="abrir_pesquisa('{{nome}}','{{pesquisar}}')">
+                <i class="bi bi-search"></i> 
+            </button>
         </div>
-    
+        <div id="collapse{{prefix}}" class="accordion-collapse collapse" data-bs-parent="#accordion{{prefix}}">
+            <div class="accordion-body">
+                <div class="campos-pessoa body_pessoa" id="campos_{{nome}}">
+                    {% if prefix == 'pessoa1' %}
+                        {% for field in form_pessoa1 %}
+                            {% if field.name == 'id_pessoa' %}
+                            <input type="hidden" name="{{prefix}}-{{field.name}}" value="{{field.value|default_if_none:''}}" id="{{ field.id_for_label }}">
+                            {%elif field.name == 'genero' %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                            <span class="required">*</span>
+                            {{field}}
+                            {% else %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}:{%if field.name == 'nome_pai'%}{%elif field.name == 'endereco_residencial'%}{% else %}{% endif %}</label>
+                            <span class="required">*</span>
+                            <input {%if field.name == 'data_nascimento' %}type="date" {% else %} type="text" {% endif %} name="{{prefix}}-{{field.name}}" value="{{field.value|default_if_none:''}}" id="{{ field.id_for_label }}" class="form-control">
+                            {% endif %}
+                        {% endfor %}
+                    {% elif prefix == 'pessoa2' %}
+                        {% for field in form_pessoa2 %}
+                            {% if field.name == 'id_pessoa' %}
+                            <input type="hidden" name="{{prefix}}-{{field.name}}" value="{{field.value|default_if_none:''}}" id="{{ field.id_for_label }}">
+                            {%elif field.name == 'genero' %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                            <span class="required">*</span>
+                            {{field}}
+                            {% else %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}:{%if field.name == 'nome_pai'%}{%elif field.name == 'endereco_residencial'%}{% else %}{% endif %}</label>
+                            <span class="required">*</span>
+                            <input {%if field.name == 'data_nascimento' %}type="date" {% else %} type="text" {% endif %} name="{{prefix}}-{{field.name}}" value="{{field.value|default_if_none:''}}" id="{{ field.id_for_label }}" class="form-control">
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+  </div>
+
+
+  

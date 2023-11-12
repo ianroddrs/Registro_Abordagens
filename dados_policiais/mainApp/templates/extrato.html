@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/registros.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Página Inicial{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Lista de registros" back=True %}
+<main class="container">
+    <div class="col pt-4">
+            <h5>Nro Bop: </h5><p>{{registro.nro_bop}}</p>
+            {% if proced.nro_procedimento %}
+                <h5>Nro Procedimento: </h5><p>{{proced.nro_procedimento}}</p>
+            {%endif%}
+            <h5>Data Registro: </h5><p>{{registro.data_registro|date:'d/m/Y'}}</p>
+            {% if registro.apresentacao %}
+                <h5>Apresentação: </h5><p><input type="checkbox" checked disabled></p>
+            {% else %}
+                <h5>Apresentação: </h5><p><input type="checkbox" disabled></p>
+            {%endif%}
+            {% if registro.fato_relevante %}
+                <h5>Fato Relevante Bop: </h5><p><input type="checkbox" checked disabled></p>
+            {% else %}
+                <h5>Fato Relevante Bop: </h5><p><input type="checkbox" disabled></p>
+            {%endif%}
+            {% if proced.fato_relevante %}
+                <h5>Fato Relevante Procedimento: </h5><p><input type="checkbox" checked disabled></p>
+            {% else %}
+                <h5>Fato Relevante Procedimento: </h5><p><input type="checkbox" disabled></p>
+            {%endif%}
+            {% if registro.processo %}
+                <h5>Processo: </h5><p>{{registro.processo}}</p>
+            {%endif%}
+            {% if registro.orgao_responsavel %}
+                <h5>Órgão Responsavel: </h5><p>{{registro.orgao_responsavel}}</p>
+            {%endif%}
+            <h5>Enquadramento: </h5><p>{{registro.enquadramento}}</p>
+            
+            {% if pessoa1 %}
+                <h5>Nome Completo: </h5><p>{{pessoa1.nome_completo}}</p>
+                <h5>Data de Nascimento: </h5><p>{{pessoa1.data_nascimento}}</p>
+                <h5>Genero: </h5><p>{{pessoa1.genero}}</p>
+                <h5>Nro Documento: </h5><p>{{pessoa1.nro_documento}}</p>
+                <h5>Nome da Mae: </h5><p>{{pessoa1.nome_mae}}</p>
+                <h5>Nome do Pai: </h5><p>{{pessoa1.nome_pai}}</p>
+                <h5>Endereço Residencial: </h5><p>{{pessoa1.endereco_residencial}}</p>
+            {% endif %}
+            {% if pessoa2 %}
+                <h5>Nome Completo: </h5><p>{{pessoa2.nome_completo}}</p>
+                <h5>Data de Nascimento: </h5><p>{{pessoa2.data_nascimento}}</p>
+                <h5>Genero: </h5><p>{{pessoa2.genero}}</p>
+                <h5>Nro Documento:</h5><p>{{pessoa2.nro_documento}}</p>
+                <h5>Nome da Mae: </h5><p>{{pessoa2.nome_mae}}</p>
+                <h5>Nome do Pai: </h5><p>{{pessoa2.nome_pai}}</p>
+                <h5>Endereço Residencial: </h5><p>{{pessoa2.endereco_residencial}}</p>
+            {% endif %}
+    </div>
+</main>
+{% endblock %}

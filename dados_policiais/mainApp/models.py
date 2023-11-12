@@ -137,6 +137,9 @@ class ModelUsuarios(models.Model):
     class Meta:
         db_table = 'usuarios'
 
+from django.utils.dateparse import parse_datetime
+import zoneinfo
+
 class ModelOperacoes(models.Model):
     nome_operacao = models.CharField(max_length=200, blank=False, null=False)
     data_inicio = models.DateTimeField(null=False, blank=False)
@@ -145,8 +148,16 @@ class ModelOperacoes(models.Model):
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
     
+    # def save(self, *args, **kwargs):
+    #     self.data_inicio = parse_datetime(self.data_inicio).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
+    #     self.data_fim = parse_datetime(self.data_fim).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
+    #     self.data_registro = parse_datetime(self.data_registro).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
+    #     self.data_manutencao = parse_datetime(self.data_manutencao).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
+    #     super().save(*args, **kwargs)
+        
     class Meta:
         db_table = 'operacoes'
+
 
 class ModelPessoas(models.Model):
     id_pessoa = models.AutoField(primary_key=True,unique=True, db_index=True, serialize=True,null=False,blank=False)

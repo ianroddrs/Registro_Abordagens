@@ -78,7 +78,7 @@ header{
   color: #d73041 !important;
 }
 
-.resultados_pesquisa{
+.resultados_pesquisa .accordion{
   max-height: 50vh;
   overflow-y: auto;
 }
