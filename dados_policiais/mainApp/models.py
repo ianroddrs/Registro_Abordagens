@@ -1,12 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from .list_choices import *
 
-GENERO = (
-    ('',''),
-    ('M','MASCULINO'),
-    ('F','FEMININO'),
-)
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -125,20 +121,17 @@ class ModelImagens(models.Model):
         db_table = 'imagens'
  
 class ModelUsuarios(models.Model):
-    id = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
+    # id = models.AutoField(primary_key=True, unique=True, db_index=True, serialize=True)
     nome_completo = models.CharField(max_length=200, blank=False, null=False)
     instituicao = models.CharField(max_length=100, blank=False, null=False)
     funcional = models.IntegerField(blank=False, null=False)
     comandante = models.BooleanField(blank=False, null=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    id_usuario_django = models.ForeignKey(User, db_column='id_usuario_django',on_delete=models.CASCADE)
+    id = models.OneToOneField(User, db_column='id',on_delete=models.CASCADE,primary_key=True)
     
     class Meta:
         db_table = 'usuarios'
-
-from django.utils.dateparse import parse_datetime
-import zoneinfo
 
 class ModelOperacoes(models.Model):
     nome_operacao = models.CharField(max_length=200, blank=False, null=False)
@@ -147,19 +140,13 @@ class ModelOperacoes(models.Model):
     responsavel = models.CharField(max_length=200,blank=False, null=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
-    
-    # def save(self, *args, **kwargs):
-    #     self.data_inicio = parse_datetime(self.data_inicio).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
-    #     self.data_fim = parse_datetime(self.data_fim).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
-    #     self.data_registro = parse_datetime(self.data_registro).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
-    #     self.data_manutencao = parse_datetime(self.data_manutencao).replace(tzinfo=zoneinfo.ZoneInfo("America/Sao_Paulo"))
-    #     super().save(*args, **kwargs)
         
     class Meta:
         db_table = 'operacoes'
 
 
 class ModelPessoas(models.Model):
+    pj = models.BooleanField(null=False)
     id_pessoa = models.AutoField(primary_key=True,unique=True, db_index=True, serialize=True,null=False,blank=False)
     nome_completo = models.CharField(max_length=200, blank=False, null=False)
     data_nascimento = models.DateField(null=False, blank=False)
@@ -167,7 +154,7 @@ class ModelPessoas(models.Model):
     nro_documento = models.IntegerField(null=False, blank=False)
     nome_mae = models.CharField(max_length=200,blank=False, null=False)
     nome_pai = models.CharField(max_length=200,blank=False, null=True)
-    endereco_residencial = models.CharField(max_length=100,null=True,blank=False)
+    endereco = models.CharField(max_length=100,null=True,blank=False)
     data_registro = models.DateTimeField(auto_now_add=True)
     data_manutencao = models.DateTimeField(auto_now=True)
     

@@ -6,3 +6,18 @@ PESSOAS
 TELA DE REGISTROS DE OCORRENCIAS,PROCEDIMENTOS E QUALQUER OUTRO INDICADOfa-rotate-180
   vai mostrar so os dez ultimos registros e vai ter locais de busca por periodo e qualquer outro campo
   para retornar um resultado paginado da pesquisa.
+
+
+FORM ENVOLVIDOS
+
+  botao adicionar
+if form_vazio:
+	if pessoa selecionada:
+		adiciona a pessoa ao form
+	if cadastrar:
+		mostra o form vazio
+else:
+	if pessoa selecionada:
+		DUPLICA o form, esvazia e adiciona a pessoa
+	if cadastrar:
+		DUPLICA o form, esvazia e mostra vazio

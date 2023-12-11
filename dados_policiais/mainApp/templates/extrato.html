@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "extends/base.html" %}
 {% load static %}
 
 
@@ -6,59 +6,101 @@
 <link rel="stylesheet" href="{% static 'css/registros.css' %}">
 {% endblock %}
 {% block js%}{% endblock %}
-{% block title %}Página Inicial{% endblock %}
+{% block title %}Extrato{% endblock %}
+{% block nav_title %}Extrato{% endblock %}
 
 
 {% block content %}
-{% include "includes/header.html" with nav_title="Lista de registros" back=True %}
 <main class="container">
-    <div class="col pt-4">
-            <h5>Nro Bop: </h5><p>{{registro.nro_bop}}</p>
-            {% if proced.nro_procedimento %}
-                <h5>Nro Procedimento: </h5><p>{{proced.nro_procedimento}}</p>
-            {%endif%}
-            <h5>Data Registro: </h5><p>{{registro.data_registro|date:'d/m/Y'}}</p>
-            {% if registro.apresentacao %}
-                <h5>Apresentação: </h5><p><input type="checkbox" checked disabled></p>
-            {% else %}
-                <h5>Apresentação: </h5><p><input type="checkbox" disabled></p>
-            {%endif%}
-            {% if registro.fato_relevante %}
-                <h5>Fato Relevante Bop: </h5><p><input type="checkbox" checked disabled></p>
-            {% else %}
-                <h5>Fato Relevante Bop: </h5><p><input type="checkbox" disabled></p>
-            {%endif%}
-            {% if proced.fato_relevante %}
-                <h5>Fato Relevante Procedimento: </h5><p><input type="checkbox" checked disabled></p>
-            {% else %}
-                <h5>Fato Relevante Procedimento: </h5><p><input type="checkbox" disabled></p>
-            {%endif%}
-            {% if registro.processo %}
-                <h5>Processo: </h5><p>{{registro.processo}}</p>
-            {%endif%}
-            {% if registro.orgao_responsavel %}
-                <h5>Órgão Responsavel: </h5><p>{{registro.orgao_responsavel}}</p>
-            {%endif%}
-            <h5>Enquadramento: </h5><p>{{registro.enquadramento}}</p>
-            
-            {% if pessoa1 %}
-                <h5>Nome Completo: </h5><p>{{pessoa1.nome_completo}}</p>
-                <h5>Data de Nascimento: </h5><p>{{pessoa1.data_nascimento}}</p>
-                <h5>Genero: </h5><p>{{pessoa1.genero}}</p>
-                <h5>Nro Documento: </h5><p>{{pessoa1.nro_documento}}</p>
-                <h5>Nome da Mae: </h5><p>{{pessoa1.nome_mae}}</p>
-                <h5>Nome do Pai: </h5><p>{{pessoa1.nome_pai}}</p>
-                <h5>Endereço Residencial: </h5><p>{{pessoa1.endereco_residencial}}</p>
-            {% endif %}
-            {% if pessoa2 %}
-                <h5>Nome Completo: </h5><p>{{pessoa2.nome_completo}}</p>
-                <h5>Data de Nascimento: </h5><p>{{pessoa2.data_nascimento}}</p>
-                <h5>Genero: </h5><p>{{pessoa2.genero}}</p>
-                <h5>Nro Documento:</h5><p>{{pessoa2.nro_documento}}</p>
-                <h5>Nome da Mae: </h5><p>{{pessoa2.nome_mae}}</p>
-                <h5>Nome do Pai: </h5><p>{{pessoa2.nome_pai}}</p>
-                <h5>Endereço Residencial: </h5><p>{{pessoa2.endereco_residencial}}</p>
-            {% endif %}
+    <div class="row pt-4 h-100">
+        {% if registro %}
+        <div class="col mt-3 min-vh-75">
+            <span class="mt-4 fs-5">Registro:</span> 
+            <div class="form-control m-auto h-100">
+                <div class="row pt-4">
+                    {% for k,v in registro.items%}
+                        {% if 'id' in k or 'nro_bop' in k or 'protocolo' in k or 'nro_procedimento' in k %}
+                        {% elif 'data' in k %}
+                            <h5>{{k}}: </h5><p>{{v}}</p>
+                        {% elif v == True or v == 'True'%}
+                            <h5>{{k}}:</h5><input type="checkbox" checked disabled>
+                        {% elif v == False or v == 'False' %}
+                            <h5>{{k}}:</h5><input type="checkbox" disabled>
+                        {% elif 'id' in k %}
+                        {% else %}
+                            <h5>{{k}}: </h5><p>{{v}}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if registro_item %}
+        <div class="col mt-3 min-vh-75">  
+            <span class="mt-4 fs-5">Analise:</span> 
+            <div class="form-control m-auto h-100">
+                <div class="row pt-4">
+                    {% for item in registro_item %}
+                        {% for k,v in item.items %}
+                            {% if 'id_' in k or 'nro_bop' in k or 'protocolo' in k or 'nro_procedimento' in k or k == 'id'%}
+                            {% elif v == True %}
+                                <h5>{{k}}:</h5><input type="checkbox" checked disabled>
+                            {% elif v == False %}
+                                <h5>{{k}}:</h5><input type="checkbox" disabled>
+                            {% else %}
+                                {% if v %}
+                                    <h5>{{k}}: </h5><p>{{v}}</p>
+                                {% else %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor%}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if registro_pessoas %}
+        <div class="col mt-3 min-vh-75">
+            <span class="mt-4 fs-5">Pessoas:</span> 
+            <div class="accordion" id="accordionExample">
+                {% for pessoa in registro_pessoas %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                {{ pessoa.nome_completo }}
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse p-3" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            {% for k,v in pessoa.items %}
+                                <div class="accordion-body p-0 pb-1 pt-1">
+                                    {% if 'id_' in k  or k == 'id' %}
+                                    {% else %}
+                                        <strong>{{k}}: </strong> <span class="control">{{v|default_if_none:'PREJUDICADO'}}</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor%}
+                        </div>
+                    </div>
+                {% endfor%}
+            </div>
+        </div>
+        {% endif %}
+        {% if registro_imagens %}
+        <div class="row mt-3 h-30 w-30">  
+            <span class="mt-4 fs-5">Imagens:</span> 
+            <div class="form-control m-auto">
+                <div class="row pt-4">
+                {% for imagem in registro_imagens %}
+                    {% for k,v in imagem.items %}
+                        {% if 'id' in k %}
+                        {% else %}
+                            <img src="{{v}}" width="50%" height = "50%">
+                        {% endif %}
+                    {% endfor%}
+                {% endfor%}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </main>
 {% endblock %}

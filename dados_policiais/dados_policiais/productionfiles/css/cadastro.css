@@ -1,5 +1,5 @@
 main section.row{
-    height: calc(100vh - 68px - 68px);
+    height: calc(100vh - 68px - 56px);
     overflow-y: auto;
 }
 
@@ -9,13 +9,13 @@ main section.row{
     border-left: none;
 }
 
-#area-btns{
+#save_bar{
     height: 68px;
     position: relative;
     bottom: 0;
 }
 
-#area-btns button{
+#save_bar button{
     width: 150px;
 }
 
@@ -25,4 +25,20 @@ main section.row{
 
 #imagemCapturada{
     object-fit: fill;
+}
+
+#nome_envolvido{
+    cursor: pointer;
+}
+
+.required{
+    color: red;
+}
+
+#camposCumprimentoMedidas, #camposApreensao{
+    display: none;
+}
+
+.btn-accordion{
+    height: -webkit-fill-available;
 }

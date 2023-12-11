@@ -44,11 +44,11 @@ header{
   display: flex;
 }
 
-.container-modal-pesquisa{
+.container-modal-pesquisa, .container-modal-info{
   display: none;
 }
 
-.container-modal-operacao, .container-modal-pesquisa{
+.container-modal-operacao, .container-modal-pesquisa, .container-modal-info{
   position: fixed;
   z-index: 99;
   left: 0;
@@ -62,7 +62,7 @@ header{
   align-items: center;
 }
 
-.box-modal-operacao, .box-modal-pesquisa{
+.box-modal-operacao, .box-modal-pesquisa, .box-modal-info{
   min-width: 350px;
 }
 
@@ -83,28 +83,7 @@ header{
   overflow-y: auto;
 }
 
-
-
-
-
-
-
-
-
-
-
-@keyframes hueCycle {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-    100% {
-      filter: hue-rotate(360deg);
-    }
-  }
-  
-  #dash {
-    position: relative;
-    z-index: -1;
-    animation: hueCycle 100s linear infinite; 
-  } 
-  
+.warning-form {
+  background-color: #ffcdcd1c !important;
+  border: 1px solid rgb(217,48,37) !important;
+}

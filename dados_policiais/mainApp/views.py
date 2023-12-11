@@ -1,4 +1,7 @@
 import json
+from django.template.loader import render_to_string
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
 import datetime
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.db.models import Sum,Q
@@ -8,9 +11,8 @@ from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from pc.form import *
-from pc.views import *
 from .models import *
+from mainApp.form import *
 import requests
 from PIL import Image
 from io import BytesIO
@@ -27,11 +29,11 @@ def sair(request):
 def home(request):
     usuario = request.user
     try:
-        instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+        instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     except:
         instituicao = 'NAO DEFINIDO'
     try:
-        funcional = ModelUsuarios.objects.get(id_usuario_django=usuario.id).funcional
+        funcional = ModelUsuarios.objects.get(id=usuario.id).funcional
     except:
         funcional = 'NAO DEFINIDA'
     gu = 'NAO DEFINIDA'
@@ -46,7 +48,7 @@ def home(request):
 @login_required
 def dashboard(request):
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     template = 'dashboard.html'
     context = {
         "instituicao":instituicao,
@@ -54,10 +56,10 @@ def dashboard(request):
     return render(request, template, context)
 
 @login_required
-def acoes(request):
-    template = 'acoes.html'
+def indicadores(request):
+    template = 'indicadores.html'
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     indicadores_page = ModelIndicadores.objects.all()
     context = {
         'indicadores':indicadores_page,
@@ -68,8 +70,8 @@ def acoes(request):
 @login_required
 def usuario(request):
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
-    template = 'usuario.html'
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
+    template = 'cadastro_usuario.html'
     if request.method == 'GET':
         form_pessoa1 = PessoasForm(prefix='pessoa1')
         context = {
@@ -82,7 +84,7 @@ def usuario(request):
         
         nome_completo = form_pessoa1['nome_completo'].value()
         senha = request.POST.get('password')
-        instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+        instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
         carteira_funcional = form_pessoa1['nro_documento'].value()
         comandante = request.POST.get('chefe_guarnicao')
         
@@ -93,7 +95,7 @@ def usuario(request):
         usuario_cadastrado = True if user and nome else False
         print(usuario_cadastrado)
         user = user if user else User.objects.create_user(username=nome_completo, password=senha)
-        nome = nome if nome else ModelUsuarios(nome_completo=nome_completo, instituicao=instituicao, funcional=carteira_funcional, comandante='True' if comandante == 'on' else 'False', id_usuario_django=user).save()
+        nome = nome if nome else ModelUsuarios(nome_completo=nome_completo, instituicao=instituicao, funcional=carteira_funcional, comandante='True' if comandante == 'on' else 'False', id=user).save()
         if pessoa:
             pessoa = pessoa
         else:
@@ -123,7 +125,7 @@ def usuario(request):
 @login_required
 def cad_operacao(request):
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     template = 'cadastro_operacao.html'
     if request.method == "GET":
 
@@ -142,208 +144,12 @@ def cad_operacao(request):
     operacao.save()
     context = {}
     # return HttpResponse('Operacao cadastrada com sucesso')
-    return redirect('reg_operacoes')
-
-def get_location_info(latitude, longitude):
-    nominatim_url = "https://nominatim.openstreetmap.org/reverse"
-
-    params = {
-        "format": "json",
-        "lat": latitude,
-        "lon": longitude,
-    }
-
-    response = requests.get(nominatim_url, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        if "address" in data:
-            address = data["address"]
-            municipality = address.get("city", address.get("town", address.get("village", "")))
-            suburb = address.get("suburb", "")
-            state = address.get("state", "")
-            return {
-                "municipality": municipality,
-                "suburb": suburb,
-                "state": state,
-            }
-
-    return {}
-
-def dms_to_dd(dms):
-    degrees, minutes, seconds = dms
-    dd = None
-    if degrees:
-        dd = float(degrees)
-    if minutes:
-        dd += float(minutes) / 60
-    if seconds:
-        dd += float(seconds) / 3600
-    return dd
+    return redirect('registro_operacoes')
 
 @login_required
-def cad_abordagem(request):
-    template = 'cadastro_abordagem.html'
-    if request.method == 'GET':
-        # __lte é igual a menor ou igual a, __gte é igual a maior ou igual a
-        operacoes = ModelOperacoes.objects.filter(data_inicio__lte=datetime.datetime.now(),data_fim__gte=datetime.datetime.now())
-        chefes = ModelUsuarios.objects.filter(comandante='True')
-        try:
-            instituicao = ModelUsuarios.objects.get(id_usuario_django=request.user.id).instituicao
-        except:
-            instituicao = 'NAO DEFINIDO'
-        context = {'operacoes':operacoes,
-                   'chefes': chefes,
-                   'instituicao': instituicao,
-                   }
-        return render(request, template,context)
-    else:
-        foto_abordado = request.POST.get('foto_abordado')
-        foto_documento = request.POST.get('foto_documento')
-        nro_documento = request.POST.get('nro_documento')
-        nome_envolvido = request.POST.get('nome_envolvido')
-        nome_mae = request.POST.get('nome_mae')
-        data_nascimento = request.POST.get('data_nasc')
-        comandante = request.POST.get('chefe_guarnicao')
-        operacao = request.POST.get('nome_op')
-        
-        imagem_abordado = foto_abordado
-        foto_abordado = re.sub('^data:image/.+;base64,', '', foto_abordado)
-        image_data = base64.b64decode(foto_abordado)
-        img = Image.open(BytesIO(image_data))
-        exif_data = img._getexif()
-        print(request.POST.get('locationResult'))
-        
-        if exif_data and 0x8825 in exif_data:
-            gps_info = exif_data[0x8825]
-            latitude = dms_to_dd(gps_info.get(2, [None]))
-            longitude = dms_to_dd(gps_info.get(4, [None]))
-            # Assumir a direção como "N" para latitude e "E" para longitude se não especificada
-            if "N" not in gps_info.get(3, ["N"]):
-                latitude *= -1
-            if "W" in gps_info.get(3, []):
-                longitude *= -1
-            location_info = get_location_info(latitude, longitude)
-            print("Latitude (DD):", latitude)
-            print("Longitude (DD):", longitude)
-            print("Município:", location_info.get("municipality", "N/A"))
-            print("Bairro:", location_info.get("suburb", "N/A"))
-            print("Estado:", location_info.get("state", "N/A"))
-        
-        user_ip = get_client_ip(request)
-        location_data = get_location_by_ip(user_ip)
-        latitude_ip = location_data['latitude']
-        longitude_ip = location_data['longitude']
-        print(latitude_ip, ',',longitude_ip, '--')
-    usuario = ModelUsuarios.objects.get(id=request.user.id)
-    
-    print(imagem_abordado[:30])
-    operacao = ModelOperacoes.objects.get(id=operacao)
-    imagem = ModelImagens(imagem=imagem_abordado)
-    imagem.save()
-    pessoa = ModelPessoas.objects.get(id_pessoa=nome_envolvido)
-    abordagem = ModelRegistrosAbordagem(comandante=comandante,id_usuario=usuario,id_operacao=operacao if operacao else None, id_envolvido=pessoa,id_foto_abordado=imagem)
-    
-    abordagem.save()
-
-    
-    context = {}
-    # return HttpResponse('Abordagem cadastrada com sucesso')
-    return redirect('reg_acoes')
-
-def get_client_ip(request):
-    # Tente obter o IP público do cliente usando um serviço externo
-    try:
-        external_ip = requests.get('https://ipinfo.io').text.strip()
-        return external_ip
-    except requests.RequestException:
-        pass
-
-    # Caso não seja possível obter o IP público, obtenha o IP local
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-def get_location_by_ip(ip):
-    url = f"https://ipinfo.io/{ip}/json"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = json.loads(response.text)
-        if 'loc' in data:
-            latitude, longitude = data['loc'].split(',')
-            return {'latitude': latitude, 'longitude': longitude}
-    return {'latitude': 0, 'longitude': 0}
-
-@login_required
-def abordagem_veicular(request):
-    template = 'cadastro_veiculo.html'
-    if request.method == 'GET':
-        # __lte é igual a menor ou igual a, __gte é igual a maior ou igual a
-        operacoes = ModelOperacoes.objects.filter(data_inicio__lte=datetime.datetime.now(),data_fim__gte=datetime.datetime.now())
-        chefes = ModelUsuarios.objects.filter(comandante='True')
-        context = {'operacoes':operacoes,
-                   'chefes': chefes,
-                   }
-        return render(request, template,context)
-    else:
-        tipo_veiculo = request.POST.get('tipo_veiculo')
-        placa = request.POST.get('placa')
-        nome_proprietario = request.POST.get('proprietario')
-        nome_condutor = request.POST.get('condutor')
-        irregularidade = request.POST.get('irregularidade')
-        veiculo_apreendido = request.POST.get('veiculo_apreendido')
-        comandante = request.POST.get('chefe_guarnicao')
-        operacao = request.POST.get('nome_op')
-    
-    usuario = User.objects.get(id=request.user.id)
-    
-    abordagem = ModelRegistrosAbordagem(comandante=comandante,id_usuario_id=usuario,operacao=operacao if operacao else None,id_tipo_abordagem=2)
-    abordagem.save()
-
-    Veiculo = ModelVeiculos(tipo_veiculo=tipo_veiculo,placa=placa,proprietario=nome_proprietario,condutor=nome_condutor,irregularidade=irregularidade,veiculo_apreendido='True' if veiculo_apreendido == 'on' else 'False',id_abordagem=abordagem)
-    print(Veiculo)
-    Veiculo.save()
-    context = {}
-    return redirect('acoes')
-
-@login_required
-def fiscalizacao_estabelecimento(request):
-    template = 'cadastro_estabelecimento.html'
-    if request.method == 'GET':
-        # __lte é igual a menor ou igual a, __gte é igual a maior ou igual a
-        operacoes = ModelOperacoes.objects.filter(data_inicio__lte=datetime.datetime.now(),data_fim__gte=datetime.datetime.now())
-        chefes = ModelUsuarios.objects.filter(comandante='True')
-        context = {'operacoes':operacoes,
-                   'chefes': chefes,
-                   }
-        return render(request, template,context)
-    else:
-        tipo_estabelecimento = request.POST.get('tipo_estabelecimento')
-        endereco = request.POST.get('endereco')
-        proprietario = request.POST.get('proprietario')
-        irregularidade = request.POST.get('irregularidade')
-        estabelecimento_interditado = request.POST.get('estabelecimento_interditado')
-        comandante = request.POST.get('chefe_guarnicao')
-        operacao = request.POST.get('nome_op')
-        
-    usuario = User.objects.get(id=request.user.id)
-    
-    abordagem = ModelRegistrosAbordagem(comandante=comandante,id_usuario_id=usuario,operacao=operacao if operacao else None,id_tipo_abordagem=3)
-    abordagem.save()
-
-    estabelecimento = ModelEstabelecimentos(tipo_estabelecimento=tipo_estabelecimento,endereco=endereco,proprietario=proprietario,irregularidade=irregularidade,estabelecimento_interditado='True' if estabelecimento_interditado == 'on' else 'False',id_abordagem=abordagem)
-    print(estabelecimento)
-    estabelecimento.save()
-    context = {}
-    return HttpResponse('fiscalizacao de estabelecimento cadastrada com sucesso')
-
-@login_required
-def reg_acoes(request):
+def registro_acoes(request):
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     parametro_page = request.GET.get('page','1')
     parametro_limit = request.GET.get('limit','15')
     if not(parametro_limit.isdigit() and int(parametro_limit)>0):
@@ -370,12 +176,12 @@ def reg_acoes(request):
         'operacao': operacoes,
         'chefes':chefes
     }
-    return render(request, 'reg_acoes.html',context)
+    return render(request, 'registro_acoes.html',context)
 
 @login_required
-def reg_operacoes(request):
+def registro_operacoes(request):
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     parametro_page = request.GET.get('page','1')
     parametro_limit = request.GET.get('limit','50')
     if not(parametro_limit.isdigit() and int(parametro_limit)>0):
@@ -398,12 +204,12 @@ def reg_operacoes(request):
         'limitp': parametro_limit,
         'operacoes': page
     }
-    return render(request, 'reg_operacoes.html',context)
+    return render(request, 'registro_operacoes.html',context)
 
-def reg_acao(request, id):
-    template = 'reg_acao.html'
+def registro_acao(request, id):
+    template = 'registro_acao.html'
     usuario = request.user
-    instituicao = ModelUsuarios.objects.get(id_usuario_django=usuario.id).instituicao
+    instituicao = ModelUsuarios.objects.get(id=usuario.id).instituicao
     if request.method == 'GET':
         registro = ModelRegistrosAbordagem.objects.filter(nro_registro=id).values()
         id_tipo_abordagem = ModelRegistrosAbordagem.objects.get(nro_registro=id).id_tipo_abordagem
@@ -450,4 +256,123 @@ def reg_acao(request, id):
             update_abordagem.save()
             return HttpResponse('salvo')
         return HttpResponse('nao salvo')
+
+def pesquisa_ajax(request):
+    if request.GET.get('q'):
+        url_parameter = request.GET.get("q")
+        list_pessoa = []
+        pessoa = ModelPessoas.objects.filter(Q(nome_completo__icontains=url_parameter)|Q(nome_mae__icontains=url_parameter)|Q(nome_pai__icontains=url_parameter)|Q(nro_documento__icontains=url_parameter))
+        for p in pessoa:
+            list_pessoa.append(model_to_dict(p))
+        print(list_pessoa)
+
+        cx = {'resultados_pessoa': list_pessoa}
+        template = "includes/resultados_pesquisa.html"
+
+    does_req_accept_json = request.accepts("application/json")
+    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+
+    if is_ajax_request:
+        html = render_to_string(
+            template_name=template, 
+            context=cx
+        )
+
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
     
+def check_pessoas(request,id_pessoa):
+    try: pessoa = ModelPessoas.objects.get(id_pessoa=id_pessoa)
+    except: pessoa = None
+    return pessoa
+
+def update_pessoa(form_pessoa,pessoa):
+    dados_formulario = form_pessoa.cleaned_data
+    for campo, valor_formulario in dados_formulario.items():
+        if campo == 'atuacao':
+            continue
+        valor_pessoa1 = getattr(pessoa, campo)
+        if valor_pessoa1 != valor_formulario:
+            setattr(pessoa, campo, valor_formulario)
+        pessoa.save()
+    return pessoa
+
+
+@login_required
+def extrato(request):
+   context_json = request.session.get('context')
+   context = json.loads(context_json)
+   context.update({
+        'instituicao': ModelUsuarios.objects.get(id=request.user.id).instituicao,
+        'usuario': request.user
+       })
+   return render(request, 'extrato.html', context)
+
+
+def request_pessoa(pesquisa):
+    if pesquisa:
+        if pesquisa.isdigit():
+            Pessoa = ModelPessoas.objects.filter(Q(nro_documento__icontains=int(pesquisa))).order_by('nome_completo')
+        else:
+            Pessoa = ModelPessoas.objects.filter(Q(nome_completo__icontains=pesquisa)|Q(nome_mae__icontains=pesquisa)|Q(nome_pai__icontains=pesquisa)).order_by('nome_completo')
+        return Pessoa
+
+def chefes_operacao(request):
+    chefe_guarnicao = request.POST.get('chefe_guarnicao')
+    chefe_guarnicao = ModelUsuarios.objects.get(id=chefe_guarnicao)
+    chefes = ModelUsuarios.objects.filter(comandante='True').exclude(id=chefe_guarnicao.id)
+    nome_op = request.POST.get('nome_op')
+    nome_op = ModelOperacoes.objects.get(id=nome_op)
+    operacoes = ModelOperacoes.objects.filter(data_inicio__lte=datetime.datetime.now(),data_fim__gte=datetime.datetime.now()).exclude(id=nome_op.id)
+    context = {
+        'nome_op':nome_op,
+        'chefe_guarnicao':chefe_guarnicao,
+        'operacoes':operacoes,
+    }
+    return context
+
+def save_pessoas(request,model, registro):
+    pessoas = []
+    form_pessoas = []
+    registros_pessoas = []
+    for prefix in range(1,int(request.POST.get('qtd_pessoas'))+1):
+        form_pessoas.append(PessoasForm(request.POST,prefix=f'pessoa{prefix}'))
+    for pessoa in form_pessoas:
+        pessoa_check = check_pessoas(request,id_pessoa=pessoa['id_pessoa'].value())
+        if pessoa.is_valid():
+            if pessoa_check:
+                pessoa_update = update_pessoa(form_pessoa=pessoa,pessoa=pessoa_check)
+                pessoa_save = pessoa_update
+            else:
+                pessoa_save = pessoa.save()
+        if model == 'ModelBop_Pesssoa':
+            print('oi')
+            atuacao = ModelAtuacao.objects.get(ds_atuacao=pessoa['atuacao'].value())
+            print(atuacao)
+            bop_pessoa = ModelBop_Pessoa(nro_bop=registro,id_pessoa=pessoa_save,id_atuacao=atuacao)
+            bop_pessoa.save()
+            registros_pessoas.append(model_to_dict(bop_pessoa))
+            
+        elif model == 'ModelRegistrosPessoaspcepa':
+            registro_pessoa = ModelRegistrosPessoaspcepa(protocolo=registro,id_pessoa=pessoa_save)
+            registro_pessoa.save()
+            registros_pessoas.append(model_to_dict(registro_pessoa))
+            
+        elif model == 'ModelBop_Procedimento':
+            atuacao = ModelAtuacao.objects.get(ds_atuacao=pessoa['atuacao'].value())
+            proced_pessoa = ModelProc_Pessoa(id_atuacao=atuacao, id_pessoa=pessoa_save, nro_procedimento=registro)
+            proced_pessoa.save()
+            registros_pessoas.append(model_to_dict(proced_pessoa))
+        print(registro)
+        pessoas.append(model_to_dict(pessoa_save))
+    return pessoas
+
+def base(request):
+    operacoes = ModelOperacoes.objects.filter(data_inicio__lte=datetime.datetime.now(),data_fim__gte=datetime.datetime.now())
+    chefes = ModelUsuarios.objects.filter(comandante='True')
+    try:
+        instituicao = ModelUsuarios.objects.get(id=request.user.id).instituicao
+    except:
+        instituicao = 'NAO DEFINIDO'
+    return operacoes, chefes, instituicao

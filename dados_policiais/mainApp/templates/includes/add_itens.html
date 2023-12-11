@@ -1,0 +1,81 @@
+{% load static %}
+<div class="accordion" id="accordion_{{type}}" data-toggle="popover" data-content="Campo requerido não preenchido">
+    <div class="accordion-item">
+        <div class="input-group flex-nowrap">
+            <h2 class="accordion-header w-100">
+                <button disabled class="btn-accordion text-start text-dark bg-light border border-0 collapsed w-100 pb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{type}}" aria-expanded="false" aria-controls="collapse_{{type}}">
+                    <span class="fs-5">{{type}}</span> 
+                </button>
+            </h2>
+            {% if type == 'Envolvidos' %}
+            <button class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Adicionar
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                {% for option in form_pessoa.atuacao.field.choices %}
+                    {% if not forloop.first %}
+                    <li class="dropdown-item" onclick="abrir_pesquisa('{{option.0|lower}}')">
+                        {{option.0|lower}}
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% elif type == 'Apreensao' %}
+            <button class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Adicionar
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                {% for option in form_apreensao.objeto_apreendido.field.choices %}
+                    {% if not forloop.first %}
+                    <li class="dropdown-item" onclick="adicionarApreensao(this)">
+                        {{option.0|lower}}
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div id="collapse_{{type}}" class="accordion-collapse collapse" data-bs-parent="#accordion_{{type}}">
+            <div class="accordion-body">
+                <div class="accordion mt-1" id="accordionCampos{{type}}">
+                    <div class="accordion-item">
+                        <div class="input-group flex-nowrap">
+                            <h2 class="accordion-header w-100">
+                                <button class="accordion-button text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{type}}Item1" aria-expanded="true" aria-controls="collapse{{type}}Item1">
+                                {% if type == 'Envolvidos' %}
+                                    Envolvido #1
+                                {% elif type == 'Apreensao' %}
+                                    Objeto apreendido #1
+                                {% endif %}
+                                </button>
+                            </h2>
+                            <button class="text-white bg-danger border border-0 btn" type="button" onclick="removeItem(this)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                        
+
+
+                        <div id="collapse{{type}}Item1" class="accordion-collapse collapse" data-bs-parent="#accordionCampos{{type}}">
+                            <div class="accordion-body" id="campos{{type}}Item1">
+                                {% if type == 'Envolvidos' %}
+                                    {{form_pessoa}}
+                                {% elif type == 'Apreensao' %}
+                                    {{ form_apreensao }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if type == 'Envolvidos' %}
+            <input type="text" name="qtd_pessoas" value="1" class="qtd_fomrs d-none">
+        {% elif type == 'Apreensao' %}
+            <input type="text" name="qtd_apreensao" value="1" class="qtd_fomrs d-none">
+        {% endif %}
+    </div>
+  </div>
+
+
+  

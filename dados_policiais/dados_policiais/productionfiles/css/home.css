@@ -1,5 +1,6 @@
-main > div{
-    height: calc(100vh - 68px);
+main div.row{
+    height: calc(100vh - 61px);
+    overflow-y: auto;
 }
 
 #btn-add{

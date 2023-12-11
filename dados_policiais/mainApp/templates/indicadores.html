@@ -1,0 +1,29 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/indicadores.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+
+{% block title %}Cadastro de Ações{% endblock %}
+{% block nav_title %}Cadastro de Ações{% endblock %}
+
+{% block content %}
+<main class="container">
+    <section class="d-flex align-items-center justify-content-center">
+        <div class="row w-100 p-3 d-flex align-items-center justify-content-center" id="actions">
+            {% for i in indicadores %}
+                {% if i.instituicao == instituicao %}
+                    <div class="border-0 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="btn btn-danger d-flex align-items-center p-0 m-2" id="action">
+                            <i class="bi {{i.icon}} mx-3"></i>
+                            <a href="{{i.endereco}}" class="text-decoration-none text-light h-100 w-100 d-flex align-items-center">{{i.indicador}}</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

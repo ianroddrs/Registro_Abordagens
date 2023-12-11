@@ -1,0 +1,19 @@
+{% extends "extends/cadastro_base.html" %}
+{% load static %}
+
+{% block title %}Número de Ocorência{% endblock %}
+{% block nav_title %}Número de Ocorrência{% endblock %}
+
+{% block campos %}
+    <div class="col-12 col-md-6 pb-5">
+        <div class="col-12 col-md-6 pb-5">
+        {{form_registros.as_p}}
+        </div>
+        {{form_analise.as_p}}
+        {{form_pessoa.as_p}}
+    </div>
+    {% include 'includes/operacao.html' %}
+</div>
+{% endblock %}
+
+

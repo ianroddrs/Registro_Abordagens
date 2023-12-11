@@ -1,0 +1,24 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+{% block css%}<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">{% endblock %}
+{% block js%}
+<script src="{% static 'js/cadastro.js' %}" defer></script>
+<script src="{% static 'js/mask.js' %}" defer></script>
+<script src="{% static 'js/ajax.js' %}" defer></script>
+<script src="{% static 'js/foto.js' %}" defer></script>
+{% endblock %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <form action="{% block action %}{% endblock %}" method="POST">
+        {% csrf_token %}
+        <section class="row justify-content-center">
+            {% block campos %}
+            {% endblock %}
+        </section>
+        {% include 'includes/save_bar.html' %}
+    </form>
+</main>
+{% endblock %}

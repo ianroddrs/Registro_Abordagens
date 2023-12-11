@@ -2,90 +2,22 @@
 <div class="container-modal-pesquisa">
     <div class="pt-0 box-modal-pesquisa">
         <div class="clearfix px-4 p-0 m-0 cor_instituicao rounded-top">
-            <label class="fs-5 text-light float-start pt-1 m-0" for="input_pesquisa">Pesquisar {{pesquisar}}:</label>
-            <button type="button" class="btn float-end p-0 m-0" id="btn-fechar" onclick="fechar_pesquisa()"><i class="bi bi-x-lg fs-4 text-light"></i></button>
+            <label class="fs-5 text-light float-start pt-1 m-0" for="q">Pesquisar <span id="tipoEnvolvido"></span>:</label>
+            <button type="button" class="btn float-end p-0 m-0" id="btn-fechar" onclick="fechar_modal(this)"><i class="bi bi-x-lg fs-4 text-light"></i></button>
         </div>
         <div class="p-4 bg-light rounded-bottom">
             <div class="input-group">
-                <input class="form-control" type="text" name="input_pesquisa" id="input_pesquisa" value="{{pesquisa}}" placeholder="Nome ou Nº. de documento">
-                <button class="btn btn-primary" value="{{pesquisar}}" name="pesquisar" type="submit" id="btn-pesquisa"><i class="bi bi-search"></i></button>
+                <label class="bg-primary text-white btn" for="q" ><i class="bi bi-search search-icon"></i></label>
+                <input class="form-control input_ajax" type="text" name="input_pesquisa" id="q" value="{{pesquisa}}" placeholder="Nome ou Nº. de documento" autocomplete='off'>
             </div>
             <div class="resultados_pesquisa">
-                {% if pesquisa %}
-                <div class="ms-1 mt-1">
-                    <button class="border border-0 bg-transparent p-0 m-0" type="button" onclick="cadastrar_pessoa('{{pesquisar}}')">
-                        Cadastrar pessoa:
-                        <img src="/static/admin/img/icon-addlink.svg" alt="Adicionar">
-                    </button>
-                </div>
-                {%endif%}
-                {% if resultados_pesquisa %}
-                    <div class="accordion accordion-flush mt-2" id="accordionFlush">
-                        {% for pessoa in resultados_pesquisa %}
-                        <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
-                                {{pessoa.nome_completo}}
-                            </button>
-                        </h2>
-                        <div id="flush-collapse{{pessoa.id_pessoa}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
-                            <div class="accordion-body">
-                                <ul>
-                                    <li class="d-none">
-                                        <strong>id</strong>
-                                        <span target="id_pessoa">{{pessoa.id_pessoa}}</span>
-                                    </li>
-                                    <li class="d-none" >
-                                        <strong>Nome:</strong>
-                                        <span target="nome_completo">
-                                            {{pessoa.nome_completo}}
-                                        </span>
-                                        
-                                    </li>
-                                    <li>
-                                        <strong>Data de nascimento:</strong>
-                                        <span target="data_nascimento">
-                                            {{pessoa.data_nascimento|date:'d/m/Y'}}
-                                        </span>                            
-                                    </li>
-                                    <li>
-                                        <strong>Nro. documento:</strong>
-                                        <span target="nro_documento">
-                                            {{pessoa.nro_documento}}
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <strong>Endereço:</strong>
-                                        <span target="endereco_residencial">
-                                            {{pessoa.endereco_residencial}}
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <strong>Gênero:</strong>
-                                        <span target="genero">
-                                            {{pessoa.genero}}
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <strong>Nome mãe:</strong>
-                                        <span target="nome_mae">
-                                            {{pessoa.nome_mae}}
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <strong>Nome pai:</strong>
-                                        <span target="nome_pai">
-                                            {{pessoa.nome_pai}}
-                                        </span>
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-sm btn-primary w-100" onclick="adicionar_pessoa(this,'{{pesquisar}}')">Adicionar</button>
-                            </div>
-                        </div>
-                        </div>
-                        {%endfor%}
-                    </div>
-                {% endif %}
+                {% include 'includes/resultados_pesquisa.html' %}
+            </div>
+            <div class="ms-1 mt-1 text-end">
+                <button class="border border-0 bg-transparent p-0 m-0" type="button" onclick="" id="btn-cadastrar-pessoa">
+                    Cadastrar nova pessoa:
+                    <img src="/static/admin/img/icon-addlink.svg" alt="Adicionar">
+                </button>
             </div>
         </div>
     </div>  

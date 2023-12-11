@@ -1,0 +1,28 @@
+<div class="accordion accordion-flush mt-2" id="accordionFlush">
+    {% for pessoa in resultados_pessoa %}
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
+                {{pessoa.nome_completo}}
+            </button>
+        </h2>
+        <div id="flush-collapse{{pessoa.id_pessoa}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    {% for k, v in pessoa.items %}
+                    <li class="list-group-item {% if 'id_' in k or 'nome_completo' in k or 'pj' in k or k == 'id' %}d-none{% endif %}">
+                        <strong>{{k}}:</strong>
+                        <span target="{{k}}">
+                            {% if 'data' in k %}{{v|date:'d/m/Y'}}{%else%}{{v}}{%endif%}
+                        </span>                            
+                    </li>
+                    {% endfor %}
+                </ul>
+            <div class="text-center">
+                <button type="button" class="btn btn-sm btn-primary w-50" onclick="adicionar_pessoa(this)">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endfor%}
+</div>
