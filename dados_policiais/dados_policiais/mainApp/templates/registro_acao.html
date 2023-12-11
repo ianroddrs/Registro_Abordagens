@@ -1,0 +1,42 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}
+<script src="{% static 'js/foto.js' %}" defer></script>
+{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Abordagem de pessoas" back=True %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <section class="row">
+        <div class="col-12 col-md-4 border pb-5">
+            {% for i in registro %}
+                {% for k,v in i.items %}
+                    <div class="input-group">
+                        <label for="{{k}}" class="fs-5 mt-3 w-100">{{k}}:</label>
+                        <input id="{{k}}" class="form-control" type="text" name="{{k}}" maxlength="150" autocomplete="" placeholder="username" autofocus value="{{v}}">
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+                {{operacao}}
+            {% for i in abordagem %}
+                {% for k,v in i.items %}
+                    <div class="input-group">
+                        <label for="{{k}}" class="fs-5 mt-3 w-100">{{k}}:</label>
+                        <input id="{{k}}" class="form-control" type="text" name="{{k}}" maxlength="150" autocomplete="" placeholder="username" autofocus value="{{v}}">
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </section>
+    <button type="submit" class="btn btn-light">Salvar</button>
+  </form>
+
+{% endblock %}

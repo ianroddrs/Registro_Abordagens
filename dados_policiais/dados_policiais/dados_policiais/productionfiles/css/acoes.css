@@ -1,0 +1,16 @@
+main > section{
+    height: calc(100vh - 68px);
+}
+
+#actions li{
+    transition: all, 0.5s;
+    border: 0;
+}
+
+#actions li:hover{
+    scale: 1.025;
+}
+
+ul{
+    list-style-type:none;
+}

@@ -1,0 +1,8 @@
+env/
+dados_policiais/dados_policiais/__pycache__/
+dados_policiais/mainApp/__pycache__/
+dados_policiais/mainApp/migrations/
+dados_policiais/pc/__pycache__/
+dados_policiais/pc/migrations/
+dados_policiais/pcepa/__pycache__/
+dados_policiais/pcepa/migrations/

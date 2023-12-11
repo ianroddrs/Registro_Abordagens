@@ -1,0 +1,23 @@
+PESSOAS
+  criar uma tabela de bop_pessoa, proc_pessoa ou qualquer ligacao com pessoas.
+  enviar na view um form de pessoas e no html adicionar as pessoas dinamicamente mudando o prefix.
+  pra cada pessoa adicionada o backend vai receber uma lista e iterar sobre ela para checar e salvar.
+
+TELA DE REGISTROS DE OCORRENCIAS,PROCEDIMENTOS E QUALQUER OUTRO INDICADOfa-rotate-180
+  vai mostrar so os dez ultimos registros e vai ter locais de busca por periodo e qualquer outro campo
+  para retornar um resultado paginado da pesquisa.
+
+
+FORM ENVOLVIDOS
+
+  botao adicionar
+if form_vazio:
+	if pessoa selecionada:
+		adiciona a pessoa ao form
+	if cadastrar:
+		mostra o form vazio
+else:
+	if pessoa selecionada:
+		DUPLICA o form, esvazia e adiciona a pessoa
+	if cadastrar:
+		DUPLICA o form, esvazia e mostra vazio

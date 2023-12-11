@@ -1,0 +1,37 @@
+{% load static %}
+<div class="container-modal-operacao">
+    <div class="p-4 pt-0 border bg-light box-modal-operacao rounded">
+        <label class="fs-5 mt-3 w-100" for="chefe_guarnicao">Comandante</label>
+        <select class="form-select" name="chefe_guarnicao" id="select-chefe" >
+            {% if chefe_guarnicao %}
+            <option selected value="{{chefe_guarnicao.id.id}}">{{chefe_guarnicao.nome_completo}}</option>
+            <option></option>
+            {% for chefe in chefes %}
+            <option value="{{chefe.id.id}}" >{{chefe.nome_completo}}</option>
+            {% endfor %}
+            {% else %}
+            <option selected></option>
+            {% for chefe in chefes %}
+            <option value="{{chefe.id.id}}" >{{chefe.nome_completo}}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+
+        <label class="fs-5 mt-3 w-100" for="nome_op">Nome da operação</label>
+        <select class="form-select" name="nome_op" id="select-operacao">
+            {% if nome_op %}
+            <option value="{{nome_op.id}}">{{nome_op.nome_operacao}}</option>
+            <option></option>
+            {% for operacao in operacoes %}
+            <option value="{{operacao.id}}">{{operacao.nome_operacao}}</option>
+            {% endfor %}
+            {% else %}
+            <option selected></option>
+            {% for operacao in operacoes %}
+            <option value="{{operacao.id}}">{{operacao.nome_operacao}}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+        <button type="button" class="btn btn-primary w-100 mt-4" id="btn-operacao" onclick="fechar_modal(this)">Continuar</button>
+    </div>  
+</div>

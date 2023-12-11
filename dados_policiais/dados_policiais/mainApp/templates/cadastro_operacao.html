@@ -1,0 +1,18 @@
+{% extends "extends/cadastro_base.html" %}
+{% load static %}
+
+{% block title %}Cadastro de Operação{% endblock %}
+{% block nav_title %}Cadastro de Operação{% endblock %}
+
+{% block campos %}
+    <div class="col-12 col-md-4 pb-5">
+        <label class="fs-5 mt-3 w-100" for="nome_operacao">Nome da Operação</label>
+        <input required class="form-control" type="text" name="nome_operacao" id="nome_operacao">
+        
+        <label class="fs-5 mt-3 w-100" for="data_inicio">Data de inicio</label>
+        <input required class="form-control" type="datetime-local" name="data_inicio" id="data_inicio">
+        
+        <label class="fs-5 mt-3 w-100" for="data_fim">Data de término</label>
+        <input class="form-control" type="datetime-local" name="data_fim" id="data_fim">
+    </div>
+{% endblock %}

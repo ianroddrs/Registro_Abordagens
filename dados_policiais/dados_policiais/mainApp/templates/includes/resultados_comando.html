@@ -1,0 +1,18 @@
+<div class="ms-1 mt-1">
+    <button class="border border-0 bg-transparent p-0 m-0" type="button" onclick="cadastrar_pessoa('{{pesquisar}}')">
+        Cadastrar pessoa:
+        <img src="/static/admin/img/icon-addlink.svg" alt="Adicionar">
+    </button>
+</div>
+<div class="accordion accordion-flush mt-2" id="accordionFlush">
+    {% for pessoa in resultados_comando %}
+    <div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
+            {{pessoa.nome_completo}}
+        </button>
+    </h2>
+</div>
+    
+    {%endfor%}
+</div>

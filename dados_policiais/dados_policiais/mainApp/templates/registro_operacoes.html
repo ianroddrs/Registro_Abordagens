@@ -1,0 +1,44 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Página Inicial{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Lista de operações" back=True %}
+<main class="container">
+    <div class="row pt-4">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de inicio</th>
+                <th scope="col">Data do término</th>
+                <th scope="col">Responsavel</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for operacao in operacoes%}
+                    <tr>
+                        {% comment %} <td><a href="{% url 'update' ocorrencia.nro_registro%}">{{ocorrencia.nro_registro}}</a></td> {% endcomment %}
+                        <td>{{operacao.nome_operacao}}</td>
+                        <td>{{operacao.data_inicio}}</td>
+                        <td>{{operacao.data_fim}}</td>
+                        <td>{{operacao.responsavel}}</td>
+                        {% comment %} <td>{{operacao.data_registro}}</td>
+                        <td>{{operacao.data_manutencao}}</td> {% endcomment %}
+                        <td class="icon">
+                            <a href="*"><i class="fa-solid fa-trash" ></i></a>
+                        </td>
+                    </tr>
+                {%endfor%}
+            </tbody>
+          </table>
+    </div>
+</main>
+{% endblock %}

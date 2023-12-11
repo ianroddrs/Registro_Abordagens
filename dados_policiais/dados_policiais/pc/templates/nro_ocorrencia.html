@@ -1,0 +1,69 @@
+{% extends "extends/cadastro_base.html" %}
+{% load static %}
+
+{% block title %}Número de Ocorência{% endblock %}
+{% block nav_title %}Número de Ocorrência{% endblock %}
+
+{% block campos %}
+    <div class="col-12 col-md-6 pb-5">
+        <div class="form-control m-auto mt-4">
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-check form-switch">
+                        <input  class="form-check-input mt-2" type="checkbox" name="apresentacao" id="apresentacao">
+                        <label class="ms-1 fs-5 w-md-100" for="apresentacao">Apresentação</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input  class="form-check-input mt-2" type="checkbox" name="fato_relevante" id="fato_relevante">
+                        <label class="ms-1 fs-5 w-md-100" for="fato_relevante">Fato relevante</label>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8">
+                    <div class="form-check form-switch">
+                        <input  class="form-check-input mt-2" type="checkbox" onclick="mostrarCumprimento(this)" name="cumprimento_medidas" id="cumprimento_medidas" >
+                        <label class="ms-1 fs-5 w-md-100" for="cumprimento_medidas">Cumprimento de medidas</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input  class="form-check-input mt-2" type="checkbox" onclick="mostrarApreensao(this)" name="cumprimento_medidas" id="cumprimento_medidas" >
+                        <label class="ms-1 fs-5 w-md-100" for="cumprimento_medidas">Apreensão</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="fs-5 mt-3" for="nro_bop">Nº. do BOP:</label>
+                <input required class="form-control" type="text" name="nro_bop" id="nro_bop" value="{{form_ocorrencia.nro_bop.value|default_if_none:''}}" mask="bop" maxlength="19" placeholder="00000/0000.000000-0">
+                
+                <label class="fs-5 mt-3" for="enquadramento">Enquadramento:</label>
+                <input required class="form-control" type="text" name="enquadramento" id="enquadramento" value="{{form_ocorrencia.enquadramento.value|default_if_none:''}}">
+            </div>
+            <div class="col-12 col-md-6" id="camposCumprimentoMedidas">
+                <label class="fs-5 mt-3" for="processo">Processo:</label>
+                <input  class="form-control" type="text" name="processo" id="processo" value="{{form_ocorrencia.processo.value|default_if_none:''}}">
+                
+                <label class="fs-5 mt-3 w-100" for="instituicao">Orgão responsavel:</label>
+                <select class="form-control" name="instituicao" id="id_instituicao">
+                    <option value="{{form_ocorrencia.instituicao.value|default_if_none:''}}" selected="">{{form_ocorrencia.instituicao.value|default_if_none:''}}</option>
+                    <option value="PM">PM</option>
+                    <option value="PC">PC</option>
+                    <option value="PC/PM">PC/PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4">
+                {% include 'includes/add_itens.html' with type='Envolvidos'%}
+            </div>
+            <div id="camposApreensao" class="col-12 mt-4">
+                {% include 'includes/add_itens.html' with type='Apreensao'%}
+            </div>
+        </div>
+        
+
+
+        {% include 'includes/operacao.html' %}
+        {% include 'includes/pesquisa.html' %}        
+    </div>
+</div>
+{% endblock %}

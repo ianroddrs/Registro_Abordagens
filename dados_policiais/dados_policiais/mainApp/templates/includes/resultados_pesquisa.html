@@ -1,0 +1,71 @@
+<div class="accordion accordion-flush mt-2" id="accordionFlush">
+    {% for pessoa in resultados_pessoa %}
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{pessoa.id_pessoa}}" aria-expanded="false" aria-controls="flush-collapse{{pessoa.id_pessoa}}">
+                {{pessoa.nome_completo}}
+            </button>
+        </h2>
+        <div id="flush-collapse{{pessoa.id_pessoa}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="d-none">
+                        <strong>id</strong>
+                        <span target="pj">{{pessoa.pj}}</span>
+                    </li>
+                    <li class="d-none">
+                        <strong>id</strong>
+                        <span target="id_pessoa">{{pessoa.id_pessoa}}</span>
+                    </li>
+                    <li class="d-none" >
+                        <strong>Nome:</strong>
+                        <span target="nome_completo">
+                            {{pessoa.nome_completo}}
+                        </span>
+                        
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Data de nascimento:</strong>
+                        <span target="data_nascimento">
+                            {{pessoa.data_nascimento|date:'d/m/Y'}}
+                        </span>                            
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Nro. documento:</strong>
+                        <span target="nro_documento">
+                            {{pessoa.nro_documento}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Endereço:</strong>
+                        <span target="endereco_residencial">
+                            {{pessoa.endereco_residencial}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Gênero:</strong>
+                        <span target="genero">
+                            {{pessoa.genero}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Nome mãe:</strong>
+                        <span target="nome_mae">
+                            {{pessoa.nome_mae}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Nome pai:</strong>
+                        <span target="nome_pai">
+                            {{pessoa.nome_pai}}
+                        </span>
+                    </li>
+                </ul>
+            <div class="text-center">
+                <button type="button" class="btn btn-sm btn-primary w-50" onclick="adicionar_pessoa(this)">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endfor%}
+</div>

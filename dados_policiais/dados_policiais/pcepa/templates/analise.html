@@ -1,0 +1,32 @@
+{% extends "extends/cadastro_base.html" %}
+{% load static %}
+
+{% block title %}Análise de Drogas{% endblock %}
+{% block nav_title %}Análise de Drogas{% endblock %}
+{% block campos %}
+    <div class="col-12 col-md-6 pb-5">
+        <div class="col-12 col-md-6 pb-5">
+            {{form_registros}}
+        </div>
+        <div class="col-12 col-md-6 pb-5">
+            {{form_analise}}
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4">
+                {% include 'includes/add_itens.html' with type='Envolvidos'%}
+            </div>
+        </div>
+        {% include 'includes/operacao.html' %}
+        {% include 'includes/pesquisa.html' %}
+        <label class="fs-5 mt-3 w-100" for="id_imagem1-imagem">Imagem</label>
+        <div class="input-group">
+            <input disabled class="form-control" type="text" id="id_imagem1-imagem">
+            <input type="hidden" id="hiddenBase64Input" name="imagem1-imagem" value="">
+            <label for="fileInput" class="btn btn-camera" id="abrirCamera" type="button" ><i class="bi bi-camera-fill"></i></label>
+            <input type="file" accept="image/*" capture="camera" id="fileInput" class="d-none">
+            <img id="imagemCapturada" src="" alt="Imagem Capturada" width="50px" height = "38px" class="imagem-captura">
+        </div>
+</div>
+{% endblock %}
+
+

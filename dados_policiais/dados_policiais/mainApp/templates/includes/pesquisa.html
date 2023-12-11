@@ -1,0 +1,24 @@
+{% load static %}
+<div class="container-modal-pesquisa">
+    <div class="pt-0 box-modal-pesquisa">
+        <div class="clearfix px-4 p-0 m-0 cor_instituicao rounded-top">
+            <label class="fs-5 text-light float-start pt-1 m-0" for="input_pesquisa">Pesquisar <span id="tipoEnvolvido"></span>:</label>
+            <button type="button" class="btn float-end p-0 m-0" id="btn-fechar" onclick="fechar_modal(this)"><i class="bi bi-x-lg fs-4 text-light"></i></button>
+        </div>
+        <div class="p-4 bg-light rounded-bottom">
+            <div class="input-group">
+                <label class="bg-primary text-white btn" for="input_pesquisa" ><i class="bi bi-search" id="search-icon"></i></label>
+                <input class="form-control input_ajax" type="text" name="input_pesquisa" id="input_pesquisa" value="{{pesquisa}}" placeholder="Nome ou Nº. de documento" autocomplete='off'>
+            </div>
+            <div class="resultados_pesquisa">
+                {% include 'includes/resultados_pesquisa.html' %}
+            </div>
+            <div class="ms-1 mt-1 text-end">
+                <button class="border border-0 bg-transparent p-0 m-0" type="button" onclick="" id="btn-cadastrar-pessoa">
+                    Cadastrar nova pessoa:
+                    <img src="/static/admin/img/icon-addlink.svg" alt="Adicionar">
+                </button>
+            </div>
+        </div>
+    </div>  
+</div>

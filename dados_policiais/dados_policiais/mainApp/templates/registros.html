@@ -1,0 +1,64 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/registros.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Página Inicial{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Lista de registros" back=True %}
+<main class="container">
+    <div class="row pt-4">
+        <table class="table table-striped" id="tabela_registros">
+            <thead>
+              <tr>
+                <th scope="col">Nr registro</th>
+                <th scope="col">Data registro</th>
+                <th scope="col">Tipo de serviço</th>
+                <th scope="col">Chefe guarnição</th>
+                <th scope="col">Operação</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for ocorrencia in registro%}
+                    <tr onclick="window.location.href='{{ocorrencia.nro_registro}}/'">
+                        {% comment %} <td><a href="{% url 'update' ocorrencia.nro_registro%}">{{ocorrencia.nro_registro}}</a></td> {% endcomment %}
+                        <td>{{ocorrencia.nro_registro}}</td>
+                        <td>{{ocorrencia.data_registro}}</td>
+                        {% if ocorrencia.id_tipo_abordagem == 1%}
+                            <td>Abordagem de pessoa</td>
+                        {% elif ocorrencia.id_tipo_abordagem == 2 %}
+                            <td>Abordagem Veicular</td>
+                        {% else %}
+                            <td>Fiscalizacao de estabelecimento</td>
+                        {% endif %}
+                         {% if ocorrencia.chefe_guarnicao %}
+                            {% for chefe in chefes%}
+                                {% if chefe.id == ocorrencia.chefe_guarnicao %}
+                                    <td>{{chefe.name}}</td>   
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        
+                        {% if ocorrencia.operacao %}
+                            {% for operacao in operacao%}
+                                {% if operacao.id == ocorrencia.operacao %}
+                                    <td>{{operacao.nome}}</td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <td class="icon">
+                            <a href="*"><i class="fa-solid fa-trash" ></i></a>
+                        </td>
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

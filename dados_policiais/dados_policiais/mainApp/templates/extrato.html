@@ -1,0 +1,135 @@
+att_joao
+{% extends "extends/base.html" %}
+{% load static %}
+
+{% block css %}
+   <link rel="stylesheet" href="{% static 'css/registros.css' %}">
+{% endblock %}
+{% block title %}Extrato{% endblock %}
+{% block nav_title %}Extrato{% endblock %}
+
+{% block content %}
+   <main class="container">
+       <div class="row pt-4 h-100">
+           {% if registro %}
+           <div class="col mt-3 min-vh-75">
+               <span class="mt-4 fs-5">Registro:</span>
+               <div class="form-control m-auto h-100 w-100 overflow-auto">
+                  <div class="row pt-4">
+                      {% for k, v in registro.items %}
+                          {% if 'id_' in k or K == 'id' %}
+                          {% elif 'data' in k %}
+                              <div class="col-12 mb-1">
+                                 <strong>{{ k }}:</strong> <span class="text-primary">{{ v|date:"d/m/Y" }}</span>
+                              </div>
+                          {% elif v|lower == 'true' or v|lower == 'false' %}
+                              <div class="col-12 mb-1">
+                                 <div class="form-check form-switch">
+                                     <input class="form-check-input" type="checkbox" {% if v|lower == 'true' %}checked{% endif %} disabled>
+                                     <strong><label class="form-check-label" for="flexSwitchCheckDefault">{{ k }}</label></strong>
+                                 </div>
+                              </div>
+                          {% else %}
+                              <div class="col-12 mb-1">
+                                 <strong>{{ k }}:</strong> <span class="text-primary">{{ v|default_if_none:'NAO INFORMADO' }}</span>
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+                  </div>
+               </div>
+           </div>
+           {% endif %}
+           {% if registro_item %}
+           <div class="col mt-3 min-vh-75">
+               <span class="mt-4 fs-5">Análise:</span>
+               <div class="form-control m-auto h-100 w-100 overflow-auto">
+                  <div class="row pt-4">
+                      {% for item in registro_item %}
+                          {% for k, v in item.items %}
+                              {% if 'id_' in k or 'nro_bop' in k or 'protocolo' in k or 'nro_procedimento' in k or k == 'id' %}
+                              {% elif v|lower == 'true' or v|lower == 'false' %}
+                                 <div class="col-12 mb-1">
+                                     <div class="form-check form-switch">
+                                         <input class="form-check-input" type="checkbox" {% if v|lower == 'true' %}checked{% endif %} disabled>
+                                         <strong><label class="form-check-label" for="flexSwitchCheckDefault">{{ k }}</label></strong>
+                                     </div>
+                                 </div>
+                                 {% else %}
+                                 <div class="col-12 mb-1">
+                                    <strong>{{ k }}:</strong> <span class="text-primary">{{ v|default_if_none:'NAO INFORMADO' }}</span>
+                                 </div>
+                              {% endif %}
+                          {% endfor %}
+                      {% endfor %}
+                  </div>
+               </div>
+           </div>
+           {% endif %}
+           {% if registro_pessoas %}
+            <div class="col mt-3 min-vh-75">
+            <span class="mt-4 fs-5">Pessoas:</span>
+            <div class="form-control m-auto h-100 w-100 overflow-auto">
+                <div class="row pt-2 pb-0 h-100">
+                    <div class="col-12">
+                        <div class="accordion" id="accordionExample">
+                            {% for pessoa in registro_pessoas %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                        {{ pessoa.nome_completo }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse p-3" style="max-height: 200px; overflow:auto;" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                        {% for k, v in pessoa.items %}
+                                        <div class="accordion-body p-0 pb-1 pt-1 mb-1">
+                                            {% if 'id_' in k or k == 'id' %}
+                                            {% elif v|lower == 'true' or v|lower == 'false' %}
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" {% if v %}checked{% endif %} disabled>
+                                                    <strong><label class="form-check-label" for="flexSwitchCheckDefault">{{ k }}</label></strong>
+                                                </div>
+                                            {% else %}
+                                                <strong>{{ k }}:</strong>
+                                                <span class="control text-primary">
+                                                    {% if 'data' in k %}
+                                                        {{ v|date:"d/m/Y" }}
+                                                    {% else %}
+                                                        {{ v|default_if_none:'PREJUDICADO' }}
+                                                    {% endif %}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+           {% if registro_imagens %}
+            <div class="row mt-3 min-vh-50">
+            <span class="mt-4 fs-5">Imagens:</span>
+            <div class="form-control m-auto h-100 w-100 overflow-auto">
+                <div class="row pt-4">
+                    {% for imagem in registro_imagens %}
+                        {% for k, v in imagem.items %}
+                            {% if 'id' in k %}
+                            {% else %}
+                                <div class="col-3 mb-1">
+                                    <a href="{{ v }}" target="_blank">
+                                        <img src="{{ v }}" class="img-fluid img-thumbnail" alt="{{ k }}">
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+           {% endblock %}

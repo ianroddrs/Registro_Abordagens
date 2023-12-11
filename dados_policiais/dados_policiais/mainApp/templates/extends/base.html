@@ -1,0 +1,110 @@
+{% load static %}
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <!-- CSS FILES -->
+    {% if instituicao == 'PCEPA' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PCEPA.css' %}">
+    {% elif instituicao == 'PC' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PC.css' %}">
+    {% elif instituicao == 'PM' %}
+    <link rel="stylesheet" href="{% static 'css/cores_PM.css' %}">
+    {% elif instituicao == 'CBM' %}
+    <link rel="stylesheet" href="{% static 'css/cores_CBM.css' %}">
+    {% else%}
+    <link rel="stylesheet" href="{% static 'css/cores.css' %}">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block css%}{% endblock %}
+    <!-- JS FILES -->
+    <script src="{% static 'js/base.js' %}" defer></script>
+    <!-- JQUERY CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    {% block js%}{% endblock %}
+    <title> Dados Policiais | {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header class="cor_instituicao">
+        <nav class="navbar navbar-dark navbar-expand-md">
+            <div class="container-fluid">
+                {% if request.resolver_match.url_name != 'home' %}
+                <button class="btn text-light p-0 m-0 me-3" {% if request.resolver_match.url_name == 'extrato' %}onclick="window.location.href='{% url 'indicadores' %}'"{%else%}onclick="history.back()"{%endif%}><i class="bi bi-chevron-left"></i></button>
+                {% else %}
+                {% endif %}
+                <span class="navbar-brand text-center" id="nav_title">
+                    {% block nav_title %}{% endblock %}
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="true" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarToggler">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}current-page{% endif %}" href="{% url 'home' %}" rel="noopener noreferrer">
+                                <i class="bi bi-house-fill"></i> Início
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'indicadores' %}current-page{% endif %}" href="{% url 'indicadores' %}" rel="noopener noreferrer">
+                                <i class="bi bi-bullseye"></i> Ações
+                            </a>
+                        </li>                                            
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'usuario' or request.resolver_match.url_name == 'cad_operacao' or request.resolver_match.url_name == 'cad_indicador'%}current-page{% endif %}" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill-gear"></i> Gerência</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item">
+                                    <a href="{% url 'usuario' %}" rel="noopener noreferrer" class="text-dark text-decoration-none">
+                                        <i class="bi bi-person-fill"></i> cadastrar usuário
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="{% url 'cad_operacao' %}" rel="noopener noreferrer" class="text-dark text-decoration-none">
+                                        <i class="bi bi-cone-striped"></i> cadastrar operação
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'registro_acoes' or request.resolver_match.url_name == 'registro_operacoes' %}current-page{% endif %}" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-card-list"></i>  Registros</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item">
+                                    <a class="text-dark text-decoration-none" href="{%if instituicao == 'PC'%}{% url 'ocorrencias' %}{% else %}{% url 'registro_acoes' %}{% endif %}" rel="noopener noreferrer">
+                                        <i class="bi bi-bullseye"></i> Ações
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="text-dark text-decoration-none" href="{% url 'registro_operacoes' %}" rel="noopener noreferrer">
+                                        <i class="bi bi-cone-striped"></i> Operações
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}current-page{% endif %}" href="{% url 'dashboard' %}" rel="noopener noreferrer">
+                                <i class="bi bi-graph-up-arrow"></i> Dashboard
+                            </a>
+                        </li>                        
+                    </ul>
+                    <hr class="d-md-none border border-light">
+                    <div class="text-end">
+                        <a class="btn btn-danger" id="btn-sair" href="{% url 'sair' %}" rel="noopener noreferrer">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Sair
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% block content %}{% endblock %}
+    {% include 'includes/info.html' %}
+</body>
+</html>

@@ -1,0 +1,92 @@
+{% load static%}
+<div class="mt-3">  
+    <span class="mt-4 fs-5">Apreensão:</span> 
+    <div class="form-control m-auto">
+        <label for="id_endereco">Endereco:</label>
+        <input class="form-control" type="text" name="endereco" maxlength="200"  id="id_endereco">
+
+        <label for="id_tipo_objeto">Tipo objeto:</label>
+        <select class="form-select" name="tipo_objeto"  id="id_tipo_objeto">
+            <option value="" selected="">---------</option>
+            <option value="DOCUMENTO">DOCUMENTO</option>
+            <option value="CELULAR">CELULAR</option>
+            <option value="OUTRO">OUTRO OBJETO</option>
+            <option value="ARMA">ARMA</option>
+            <option value="MUNICAO">MUNICAO</option>
+            <option value="DROGA">DROGA</option>
+            <option value="RECURSO_NATURAL">RECURSO NATURAL</option>
+            <option value="PARTES_DO_CORPO">PARTES DO CORPO</option>
+            <option value="VEICULO">VEICULO</option>
+        </select>
+        <span class="mt-4 fs-5">Droga:</span> 
+        <div class="form-control m-auto">
+            <label for="id_tipo_droga">Tipo droga:</label>
+            <select class="form-select" name="tipo_droga"  id="id_tipo_droga">
+                <option value="" selected="">---------</option>
+                <option value="ANFETAMINA">ANFETAMINA</option>
+                <option value="COCAINA">COCAINA</option>
+                <option value="CRACK">CRACK</option>
+                <option value="ECSTASY">ECSTASY</option>
+                <option value="MACONHA">MACONHA</option>
+                <option value="MDMA">MDMA</option>
+                <option value="MERLA">MERLA</option>
+                <option value="NOBESIO">NOBESIO</option>
+                <option value="OXI">OXI</option>
+            </select>
+
+            <label for="id_qtd_droga">Qtd droga:</label>
+            <input class="form-control" type="number" name="qtd_droga" step="any"  id="id_qtd_droga">
+
+            <label for="id_und_medida">Und medida:</label>  
+            <select class="form-select" name="und_medida"  id="id_und_medida">
+                <option value="" selected="">---------</option>
+                <option value="Kg">QUILOGRAMA</option>
+                <option value="g">GRAMAS</option>
+                <option value="UND">UNIDADE</option>
+                <option value="L">LITROS</option>
+            </select>
+        </div>
+        <span class="mt-4 fs-5">Arma:</span> 
+        <div class="form-control m-auto">
+            <label for="id_tipo_arma">Tipo arma:</label>
+            <select class="form-select" name="tipo_arma"  id="id_tipo_arma">
+                <option value="" selected="">---------</option>
+                <option value="ARMA_DE_FOGO">ARMA DE FOGO</option>
+                <option value="ARMA_BRANCA">ARMA BRANCA</option>
+                <option value="SIMULACRO">SIMULACRO</option>
+            </select>
+
+            <label for="id_especie_arma">Especie arma:</label>
+            <input class="form-control" type="text" name="especie_arma" maxlength="50"  id="id_especie_arma">
+
+            <label for="id_qtd_arma">Qtd arma:</label>
+            <input class="form-control" type="number" name="qtd_arma"  id="id_qtd_arma">
+        </div>
+        <span class="mt-4 fs-5">Munição:</span> 
+        <div class="form-control m-auto">
+            <label for="id_municao">Quantidade de Munição:</label>
+            <input class="form-control" type="number" name="municao"  id="id_municao">
+        </div>
+        <span class="mt-4 fs-5">Celular:</span> 
+        <div class="form-control m-auto">
+            <label for="id_imei1_celular">Imei1 celular:</label>
+            <input class="form-control" type="text" name="imei1_celular" maxlength="50"  id="id_imei1_celular">
+
+            <label for="id_imei2_celular">Imei2 celular:</label>
+            <input class="form-control" type="text" name="imei2_celular" maxlength="50"  id="id_imei2_celular">
+        </div>
+        <span class="mt-4 fs-5">Outros objetos:</span> 
+        <div class="form-control m-auto">
+            <label for="id_outros_objetos">Outros objetos:</label>
+            <input class="form-control" type="text" name="outros_objetos" maxlength="200"  id="id_outros_objetos">
+
+            <label for="id_qtd_outros_objetos">Qtd outros objetos:</label>
+            <input class="form-control" type="number" name="qtd_outros_objetos"  id="id_qtd_outros_objetos">
+        </div>
+        <span class="mt-4 fs-5">Veículo:</span> 
+        <div class="form-control m-auto">
+            <label for="id_placa_veiculo">Placa veiculo:</label>
+            <input class="form-control" type="text" name="placa_veiculo" maxlength="20"  id="id_placa_veiculo">
+        </div>
+    </div>
+</div>

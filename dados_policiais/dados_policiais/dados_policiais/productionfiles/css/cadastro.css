@@ -1,0 +1,40 @@
+main section.row{
+    height: calc(100vh - 68px - 56px);
+    overflow-y: auto;
+}
+
+.btn-camera{
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-left: none;
+}
+
+#save_bar{
+    height: 68px;
+    position: relative;
+    bottom: 0;
+}
+
+#save_bar button{
+    width: 150px;
+}
+
+.imagem-captura{
+    display: none;
+}
+
+#imagemCapturada{
+    object-fit: fill;
+}
+
+#nome_envolvido{
+    cursor: pointer;
+}
+
+.required{
+    color: rgb(217,48,37);
+}
+
+#camposCumprimentoMedidas, #camposApreensao{
+    display: none;
+}

@@ -1,0 +1,76 @@
+{% extends "extends/base.html" %}
+{% load static %}
+
+
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+{% endblock %}
+{% block js%}{% endblock %}
+{% block title %}Cadastro de operação{% endblock %}
+
+
+{% block content %}
+{% include "includes/header.html" with nav_title="Abordagem estabelecimento" back=True %}
+<main class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <section class="row">
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="tipo_estabelecimento">Tipo de estabelecimento</label>
+                <select class="form-select" name="tipo_estabelecimento" id="" >
+                    <option selected></option>
+                    <option value="BAR">BAR</option>
+                    <option value="LOJA">LOJA</option>
+                    <option value="POSTO DE COMBUSTIVEL">POSTO DE COMBUSTIVEL</option>
+                    <option value="CASA LOTERICA">CASA LOTERICA</option>
+                    <option value="BANCO">BANCO</option>
+                </select>
+                
+                <label class="fs-5 mt-3 w-100" for="endereco">Endereco</label>
+                <input required class="form-control" type="text" name="endereco" id="endereco">
+                
+                <label class="fs-5 mt-3 w-100" for="proprietario">Proprietario</label>
+                <input required class="form-control" type="text" name="proprietario" id="proprietario">
+            </div>
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="irregularidade">Irregularidade</label>
+                <input class="form-control" type="text" name="irregularidade" id="irregularidade">
+                
+                <label class="fs-5 mt-3 w-100" for="estabelecimento_interditado">Estabelecimento interditado</label>
+                <input class="form-check-input" type="checkbox" name="estabelecimento_interditado" id="estabelecimento_interditado">
+        
+            </div>
+            <div class="col-12 col-md-4 border pb-5">
+                <label class="fs-5 mt-3 w-100" for="chefe_guarnicao">Chefe da guarnição</label>
+                <select class="form-select" name="chefe_guarnicao" id="" required>
+                    <option selected></option>
+                    {% for chefe in chefes %}
+                    <option value="{{chefe.id}}">{{chefe.name}}</option>
+                    {% endfor %}
+                </select>
+                
+                <label class="fs-5 mt-3 w-100" for="nome_op">Nome da operação</label>
+                <select class="form-select" name="nome_op" id="">
+                    <option selected></option>
+                    {% for operacao in operacoes %}
+                    <option value="{{operacao.id}}">{{operacao.nome}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <input required class="form-control" type="text" name="nome_op" id="nome_op"> -->
+            </div>
+        </section>
+        {% include 'includes/save_bar.html' %}
+    </form>
+
+    <!-- Modal para visualização da câmera -->
+    <div id="cameraModal" class="modal row p-0 m-0 align-items-center">
+        <div class="col-12 d-flex justify-content-center">
+            <video id="cameraView" autoplay></video>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <button class="btn btn-light" id="capturarFotoModal"> <i class="bi bi-camera-fill"></i></button>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
